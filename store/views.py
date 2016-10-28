@@ -7,7 +7,7 @@ from .models import *
 class index(View):
         template_name = "store/index.html"
         def get(self, request):
-            obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
-            print created
+            #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
+            #print created
             return render(request, self.template_name, {})
 

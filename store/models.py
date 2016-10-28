@@ -15,17 +15,32 @@ class User(models.Model):
 	company = models.CharField(max_length=50)
 			
 
-"""class Order(models.Model):
-	order_date = models.InteagerField(max_length=10)
+class Order(models.Model):
+	order_date = models.DateField()
+	sum_price = models.DoubleField()
+	id_user = models.ForeignKey(User,on_delete=models.CASCADE)
+
 class Product(models.Model):
 	name_product = models.CharField(max_length=20)
-	amount_product = models.InteagerField(max_length=5)
+	amount_product = models.IntegerField()
 	price_product = models.DoubleField(max_length=5)
-	score_product = models.InteagerField(max_length=5)
+	score_product = models.IntegerField()
+
 class Order_list(models.Model):
-	id_order = models.InteagerField(max_length=10)
-	id_product = models.InteagerField(max_length=10)
-class Track(models):
-	id_order = models.InteagerField(max_length=10)
-	current_state = models.CharField(max_length=10)
-	date_deliver = models.InteagerField(max_length=10)"""
+	id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
+	id_product = models.ForeignKey(Product,on_delete=models.CASCADE)
+	qty_product = models.IntegerField()
+
+class Tracking(models.Model):
+	id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
+	id_user = models.ForeignKey(User,on_delete=models.CASCADE)
+	STATE_CHOICE = (
+		(1 , 'Processing'),
+		(2 , 'Preparing'),
+		(3 , 'Delivering'),
+		(4 , 'Success'),
+	)
+	current_state = models.IntegerField(choices=STATE_CHOICE)
+	
+	
+	

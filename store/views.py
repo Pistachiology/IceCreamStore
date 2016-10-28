@@ -5,19 +5,11 @@ from .models import *
 
 # Create your views here.
 class index(View):
-<<<<<<< HEAD
         template_name = "store/index.html"
         def get(self, request):
             #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
             #print created
             return render(request, self.template_name, {})
-=======
-    template_name = "store/index.html"
-    def get(self, request):
-        # obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
-        return render(request, self.template_name, {})
->>>>>>> 89490058179a1b202840004a420cd45b3eb0af19
-
 
 class register(View):
     template_name = "store/register.html"

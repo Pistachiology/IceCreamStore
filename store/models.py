@@ -17,13 +17,13 @@ class User(models.Model):
 
 class Order(models.Model):
 	order_date = models.DateField()
-	sum_price = models.DoubleField()
+	sum_price = models.FloatField()
 	id_user = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class Product(models.Model):
 	name_product = models.CharField(max_length=20)
 	amount_product = models.IntegerField()
-	price_product = models.DoubleField(max_length=5)
+	price_product = models.FloatField(max_length=5)
 	score_product = models.IntegerField()
 
 class Order_list(models.Model):

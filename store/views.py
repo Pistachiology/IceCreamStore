@@ -1,31 +1,27 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404, HttpResponseRedirect
 from django.views import View
-from .models import *
+#from .models import *
 
 # Create your views here.
 class index(View):
-<<<<<<< HEAD
-        template_name = "store/index.html"
-        def get(self, request):
-            #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
-            #print created
-            return render(request, self.template_name, {})
-=======
     template_name = "store/index.html"
     def get(self, request):
-        # obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
+        #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
+        #print created
         return render(request, self.template_name, {})
->>>>>>> 89490058179a1b202840004a420cd45b3eb0af19
-
 
 class register(View):
     template_name = "store/register.html"
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
     def post(self, request):
-        pass
+        if request.POST['password'] == request.POST['repassword']:
+
+        else:
+            
+            return render(request, self.template_name, {})
 
 class all_product(View):
     template_name = "store/all_product.html"

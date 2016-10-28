@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+    	Username:<br>
+    	<input type="text" name="username"><br>
+    	Password:<br>
+    	<input type="password" name="password"> <div style="visibility: hidden;"></div>><br>
+    	Re-Password:<br>
+    	<input type="password" name="repassword"><br>
+    	First Name:<br>
+    	<input type="text" name="firstname"><br>
+    	Last Name:<br>
+    	<input type="text" name="lastname"><br>
+    	Address:<br>
+    	<input type="text" name="address"><br>
+    	Tel.:<br>
+    	<input type="text" name="tel"><br>
+    	Company:<br>
+    	<input type="text" name="company"><br>
+    	<input type="submit" value="Submit">
+    </form>
+{% endblock %}

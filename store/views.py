@@ -13,15 +13,16 @@ class index(View):
 
 class register(View):
     template_name = "store/register.html"
+    wrongpass = "collapse"
     def get(self, request):
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, {'wrongpass':self.wrongpass})
 
     def post(self, request):
         if request.POST['password'] == request.POST['repassword']:
-
+            pass
         else:
-            
-            return render(request, self.template_name, {})
+            wrongpass = "visible"
+            return render(request, self.template_name, {'wrongpass':self.wrongpass})
 
 class all_product(View):
     template_name = "store/all_product.html"

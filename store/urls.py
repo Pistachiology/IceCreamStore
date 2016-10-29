@@ -12,5 +12,7 @@ urlpatterns = [
         url(r'^track/(?P<track_id>[0-9]+)/?$', views.track.as_view(), name='track'),
         url(r'^profile/?$', views.profile.as_view(), name='profile'),
         url(r'^contact_us/?$', views.contact_us.as_view(), name='contact_us'),
+        # TODO: fix url redirection
+        url(r'^.*$', views.index.as_view(), name='somethingelse'),
         
 ]

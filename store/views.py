@@ -13,6 +13,15 @@ class index(View):
         #print created
         return render(request, self.template_name, {})
 
+class login(View):
+    template_name = "store/login.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {})
+
+    def post(self, request):
+        return render(request, self.template_name, {})
+
 class register(View):
     template_name = "store/register.html"
     def get(self, request):

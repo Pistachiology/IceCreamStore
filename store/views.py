@@ -20,7 +20,18 @@ class login(View):
         return render(request, self.template_name, {})
 
     def post(self, request):
-        return render(request, self.template_name, {})
+        err_message = ""
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        userObject = User.objects.filter(username=username)
+        if userObject.exists():
+            if password == userObject[0].password:
+                pass
+            else:
+                err_message = "Invalid password."
+        else:
+            err_message = "Invalid username."
+        return render(request, self.template_name, {'err_message': err_message})
 
 class register(View):
     template_name = "store/register.html"
@@ -30,7 +41,7 @@ class register(View):
     def post(self, request):
         response = {}
         response['err_occur'] = "The following errors occur:"
-        response['err_message'] = ''
+        response['err_message'] = ""
         for key in request.POST.keys():
             response[key] = request.POST.get(key, '')
         if User.objects.filter(username=response['username']).exists():

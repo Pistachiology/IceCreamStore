@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <p style="align: center; color:red; font-size: 11px"> {{ err_message }} </p>
     <form method="post">
     	Username:<br>
     	<input type="text" name="username" value="{{username}}"><br>

@@ -10,6 +10,8 @@ class CustomUser(User):
     
 class Product(models.Model):
     name = models.CharField(max_length=20)
+    description = models.CharField(max_length=400)
+    image = models.ImageField(upload_to='product_image', default='product_image/None/no-img.jpg')
     amount = models.IntegerField()
     price = models.FloatField(max_length=5)
     score = models.FloatField()

@@ -7,7 +7,7 @@
 <div class="row">
     <!-- Card Projects -->
     {% for product in products %}
-    <div class="col-md-3 ">
+    <div class="col-md-4 ">
         <div class="card">
             <div class="card-image">
                 <img class="img-responsive card-inside-image" src="http://material-design.storage.googleapis.com/publish/v_2/material_ext_publish/0Bx4BSt6jniD7TDlCYzRROE84YWM/materialdesign_introduction.png">
@@ -15,10 +15,10 @@
             </div>
 
             <div class="card-content">
-                <h3> {{ product.name_product }} </h3>
+                <h4> {{ product.name }} </h4>
                 <p> A very popular and delicious flavor. Made from belguim chocolate </p>
                 <br />
-                <p> <div style="text-align:left;float:left" ><b>{{ product.price_product }} B</b></div>  <div style="text-align: right;float:right;">&nbsp; <b>{{ product.score_product }}/10</b> </div> </p>
+                <p> <div style="text-align:left;float:left" ><b>{{ product.price}} B</b></div>  <div style="text-align: right;float:right;">&nbsp; <b>{{ product.score }}/10</b> </div> </p>
                 <br />
             </div>
             <div class="card-action">

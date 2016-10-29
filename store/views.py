@@ -23,7 +23,7 @@ class all_product(View):
     template_name = "store/all_product.html"
 
     def get(self, request):
-        pass
+        return render(request, self.template_name, {"data": range(10)})
 
     def post(self, request):
         pass
@@ -47,7 +47,7 @@ class all_track(View):
     template_name = "store/all_track.html"
 
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
 class track(View):
     template_name = "store/track.html"
@@ -59,7 +59,7 @@ class profile(View):
     template_name = "store/profile.html"
 
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
     def post(self, request):
         pass

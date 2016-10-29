@@ -91,11 +91,11 @@
                         </li>
                         <!-- Order -->
                         <li>
-                            <a href="#"> <p class="fa fa-comment"> </p> History</a>
+                            <a href="{% url 'history' %}"> <p class="fa fa-comment"> </p> History</a>
                         </li>
                         <!-- Tracking -->
                         <li>
-                            <a href="#"> <p class="fa fa-comment"> </p> Tracking info</a>
+                            <a href="{% url 'all_track' %}"> <p class="fa fa-comment"> </p> Tracking info</a>
                         </li>
 
                         <!-- Contact us -->
@@ -113,15 +113,14 @@
                                                                                                     
         <div id="page-wrapper">
             <div class="container-fluid">
-                <!--
-                <div class="row" style="position: fixed; top:10%; left:25%; width:50%; z-index:999;">
+                <div class="row" style="position: fixed; top:10%; left:25%; width:50%; z-index:1999;">
                     <div class="col-md-10 col-md-offset-1">
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <div class="alert alert-info alert-dismissable" id="notification_bar">
+                                <button type="button" class="close" id="btn_notification">×</button>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
                             </div>
                     </div>
-                </div>-->
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">{% block page_header %}Temporary {% endblock %}</h1>
@@ -152,6 +151,12 @@
     <script src="{% static 'vendor/metisMenu/metisMenu.min.js' %}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'js/sb-admin-2.js' %}"></script>
+
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script>
+        $("#notification_bar").hide();
+        $("button#btn_notification").click(function(){ $("#notification_bar").fadeOut();});
+    </script>
     {% block js %} {% endblock %}
 </body>
 

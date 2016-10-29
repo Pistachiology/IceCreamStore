@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404, Ht
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db import connection
+from django.contrib import messages
 from .models import *
 
 # Create your views here.
@@ -15,26 +16,42 @@ class index(View):
 
 class login(View):
     template_name = "store/login.html"
-
     def get(self, request):
         return render(request, self.template_name, {})
 
     def post(self, request):
+<<<<<<< HEAD
         if request.POST['password'] == request.POST['repassword']:
             pass
         else:
             return render(request, self.template_name, {})
         return render(request, self.template_name, {})
+=======
+        err_message = ""
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        userObject = User.objects.filter(username=username)
+        if userObject.exists():
+            if password == userObject[0].password:
+                request.session['is_logged_in'] = True
+            else:
+                err_message = "Invalid password."
+        else:
+            err_message = "Invalid username."
+        return render(request, self.template_name, {'err_message': err_message})
+>>>>>>> ab56deb5427604f3230e40f6c3a70a9d716c5963
 
 class register(View):
     template_name = "store/register.html"
     def get(self, request):
+        #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
+        #    return redirect("/store/login")
         return render(request, self.template_name)
 
     def post(self, request):
         response = {}
         response['err_occur'] = "The following errors occur:"
-        response['err_message'] = ''
+        response['err_message'] = ""
         for key in request.POST.keys():
             response[key] = request.POST.get(key, '')
         if User.objects.filter(username=response['username']).exists():
@@ -63,7 +80,8 @@ class register(View):
                            tel=response['tel'],
                            company=response['company'])
             newUser.save()
-            return render(request, self.template_name)
+            messages.success(request, 'Register Complete')
+            return redirect('/store/login')
         else:
             return render(request, self.template_name, response)
 

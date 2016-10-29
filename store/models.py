@@ -23,10 +23,10 @@ class Product(models.Model):
 class Order(models.Model):
     order_date = models.DateField()
     sum_price = models.FloatField()
-    list_product = models.ManyToManyField(Product, through='Order_list')
+    list_product = models.ManyToManyField(Product, through='OrderList')
     id_user = models.ForeignKey(User,on_delete=models.CASCADE)
 
-class Order_list(models.Model):
+class OrderList(models.Model):
     id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
     id_product = models.ForeignKey(Product,on_delete=models.CASCADE)
     qty_product = models.IntegerField()

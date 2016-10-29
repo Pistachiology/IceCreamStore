@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404, Ht
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db import connection
+from django.contrib import messages
 from .models import *
 
 # Create your views here.
@@ -15,7 +16,6 @@ class index(View):
 
 class login(View):
     template_name = "store/login.html"
-
     def get(self, request):
         return render(request, self.template_name, {})
 
@@ -59,7 +59,8 @@ class register(View):
                            tel=response['tel'],
                            company=response['company'])
             newUser.save()
-            return render(request, self.template_name)
+            messages.success(request, 'Register Complete')
+            return redirect('/store/login')
         else:
             return render(request, self.template_name, response)
 

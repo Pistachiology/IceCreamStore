@@ -45,7 +45,7 @@ class register(View):
     def get(self, request):
         #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
         #    return redirect("/store/login")
-        return render(request, self.template_name)
+        return render(request, self.template_name, {})
 
     def post(self, request):
         response = {}
@@ -92,9 +92,6 @@ class register(View):
 class all_product(View):
     template_name = "store/all_product.html"
     def get(self, request):
-        return self.post(request)
-
-    def post(self, request):
         response = {}
         products = Product.objects.all()
         items = []
@@ -122,13 +119,13 @@ class history(View):
     template_name = "store/history.html"
 
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
 class all_track(View):
     template_name = "store/all_track.html"
 
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
 class track(View):
     template_name = "store/track.html"
@@ -141,12 +138,7 @@ class profile(View):
      
     @method_decorator(login_required)
     def get(self, request):
-        self.post(request)
-
-    @method_decorator(login_required)
-    def post(self, request):
         user = get_object_or_404(User, username=request.username)
-        print user
         return render(request, self.template_name, {'profile_user':user})
 
 class contact_us(View):
@@ -154,3 +146,10 @@ class contact_us(View):
 
     def get(self, request):
         pass
+
+
+class cart(View):
+    template_name = "store/cart.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {})

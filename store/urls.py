@@ -14,5 +14,6 @@ urlpatterns = [
         url(r'^contact_us/?$', views.contact_us.as_view(), name='contact_us'),
         # TODO: fix url redirection
         url(r'^login/?$', views.login_view.as_view(), name='login_view'),
+        url(r'^cart/?$', views.cart.as_view(), name='cart'),
         url(r'^.*$', views.index.as_view(), name='somethingelse'),
 ]

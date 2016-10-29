@@ -4,7 +4,7 @@
     {% if messages %}
         <script>
         {% for message in messages %}
-            alert("{{message}}");
+            {% if message.level == REGISTER_SUCCESS %}alert("{{message}}");{% endif %}
         {% endfor %}
         </script>
     {% endif %}

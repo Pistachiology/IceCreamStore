@@ -139,8 +139,8 @@ class profile(View):
      
     @method_decorator(login_required)
     def get(self, request):
-        custom_user = CustomUser.objects.get(id=request.user.id)
-        return render(request, self.template_name, custom_user)
+        user = CustomUser.objects.get(id=request.user.id)
+        return render(request, self.template_name, {'user': user})
 
     @method_decorator(login_required)
     def post(self, request):
@@ -155,12 +155,7 @@ class profile(View):
             messages.success(request, "Successfully edited profile.")
             return render(request, self.template_name)
         messages.error(request, "Invalid password")
-        return render(request, self.template_name, {'first_name': user.first_name,
-                                                    'last_name': user.last_name,
-                                                    'address': user.address,
-                                                    'tel': user.tel
-                                                    }
-                    )
+        return render(request, self.template_name, {'user': user})
 
 
 class contact_us(View):

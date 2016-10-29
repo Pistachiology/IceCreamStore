@@ -3,3 +3,4 @@ mongoengine==0.8.0
 MySQL-python==1.2.5
 pymongo==2.8
 Unipath==1.1
+pillow-3.4.2

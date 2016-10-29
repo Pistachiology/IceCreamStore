@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.db import connection
 from django.contrib import messages
 from .models import *
-# import sys
+import sys
 
 # Create your views here.
 class index(View):
@@ -138,7 +138,8 @@ class profile(View):
      
     @method_decorator(login_required)
     def get(self, request):
-        return render(request, self.template_name)
+        custom_user = CustomUser.objects.get(id=request.user.id)
+        return render(request, self.template_name, custom_user)
 
     @method_decorator(login_required)
     def post(self, request):
@@ -148,13 +149,17 @@ class profile(View):
         user.address = request.POST.get('address', '')
         user.tel = request.POST.get('tel', '')
         authen = authenticate(username=user.username, password=request.POST.get('password', ''))
-        print "hello" + authen
         if authen is not None:
             user.save()
             messages.success(request, "Successfully edited profile.")
             return render(request, self.template_name)
         messages.error(request, "Invalid password")
-        return render(request, self.template_name)
+        return render(request, self.template_name, {'first_name': user.first_name,
+                                                    'last_name': user.last_name,
+                                                    'address': user.address,
+                                                    'tel': user.tel
+                                                    }
+                    )
 
 
 class contact_us(View):

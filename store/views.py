@@ -80,3 +80,8 @@ class login(View):
     def post(self, request):
         return render(request, self.template_name, {})
         
+class cart(View):
+    template_name = "store/cart.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {})

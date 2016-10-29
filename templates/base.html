@@ -78,7 +78,7 @@
                             <a href="{% url 'index' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Products <span class="fa arrow"></span></a>
+                            <a href="#"><span class="glyphicon glyphicon-ice-lolly"></span> Products <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{% url 'all_product' %}"> Popular products</a>
@@ -91,13 +91,16 @@
                         </li>
                         <!-- Order -->
                         <li>
-                            <a href="{% url 'history' %}"> <p class="fa fa-comment"> </p> History</a>
+                            <a href="{% url 'history' %}"> <p class="fa fa-history"> </p> History</a>
                         </li>
                         <!-- Tracking -->
                         <li>
-                            <a href="{% url 'all_track' %}"> <p class="fa fa-comment"> </p> Tracking info</a>
+                            <a href="{% url 'all_track' %}"> <p class="fa fa-info-circle"> </p> Tracking info</a>
                         </li>
 
+                        <li>
+                            <a href="{% url 'all_track' %}"> <p class="fa fa-shopping-cart"> </p> Cart </a>
+                        </li>
                         <!-- Contact us -->
                         <li>
                             <a href="#"> <p class="fa fa-comment"> </p> Contact us  </a>

@@ -26,7 +26,7 @@ class login(View):
         userObject = User.objects.filter(username=username)
         if userObject.exists():
             if password == userObject[0].password:
-                pass
+                request.session['is_logged_in'] = True
             else:
                 err_message = "Invalid password."
         else:
@@ -36,6 +36,8 @@ class login(View):
 class register(View):
     template_name = "store/register.html"
     def get(self, request):
+        #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
+        #    return redirect("/store/login")
         return render(request, self.template_name)
 
     def post(self, request):

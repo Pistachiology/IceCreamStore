@@ -5,19 +5,22 @@ from .models import *
 
 # Create your views here.
 class index(View):
-        template_name = "store/index.html"
-        def get(self, request):
-            #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
-            #print created
-            return render(request, self.template_name, {})
+    template_name = "store/index.html"
+    def get(self, request):
+        #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
+        #print created
+        return render(request, self.template_name, {})
 
 class register(View):
     template_name = "store/register.html"
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
     def post(self, request):
-        pass
+        if request.POST['password'] == request.POST['repassword']:
+            pass
+        else:
+            return render(request, self.template_name, {})
 
 class all_product(View):
     template_name = "store/all_product.html"

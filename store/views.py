@@ -142,13 +142,14 @@ class profile(View):
 
     @method_decorator(login_required)
     def post(self, request):
-        print "hello" + authen
+        print request.user.id
         user = CustomUser.objects.get(id=request.user.id)
         user.first_name = request.POST.get('first_name', '')
         user.last_name = request.POST.get('last_name', '')
         user.address = request.POST.get('address', '')
         user.tel = request.POST.get('tel', '')
         authen = authenticate(username=user.username, password=request.POST.get('password', ''))
+        print "hello" + authen
         if authen is not None:
             user.save()
             messages.success(request, "Successfully edited profile.")

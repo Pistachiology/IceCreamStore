@@ -98,6 +98,7 @@ class all_product(View):
         for product in products:
             # print product.name
             items.append( {
+                'id':product.id,
                 'name':product.name,
                 'amount':product.amount,
                 'price':product.price,

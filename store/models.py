@@ -9,25 +9,25 @@ class CustomUser(User):
     company = models.CharField(max_length=50)
     
 class Product(models.Model):
-    name_product = models.CharField(max_length=20)
-    amount_product = models.IntegerField()
-    price_product = models.FloatField(max_length=5)
-    score_product = models.FloatField()
+    name = models.CharField(max_length=20)
+    amount = models.IntegerField()
+    price = models.FloatField(max_length=5)
+    score = models.FloatField()
 
 class Order(models.Model):
-    order_date = models.DateField()
+    date = models.DateField()
     sum_price = models.FloatField()
     list_product = models.ManyToManyField(Product, through='OrderList')
-    id_user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class OrderList(models.Model):
-    id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
-    id_product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    qty_product = models.IntegerField()
+    order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product,on_delete=models.CASCADE)
+    qty = models.IntegerField()
 
 class Tracking(models.Model):
-    id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
-    id_user = models.ForeignKey(User,on_delete=models.CASCADE)
+    order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     STATE_CHOICE = (
         (1 , 'Processing'),
         (2 , 'Preparing'),

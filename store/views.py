@@ -96,12 +96,12 @@ class all_product(View):
         products = Product.objects.all()
         items = []
         for product in products:
-            print product.name_product
+            # print product.name
             items.append( {
-                'name_product':product.name_product,
-                'amount_product':product.amount_product,
-                'price_product':product.price_product,
-                'score_product':product.score_product
+                'name':product.name,
+                'amount':product.amount,
+                'price':product.price,
+                'score':product.score
             })
         response['products'] = items
         return render(request, self.template_name, response)

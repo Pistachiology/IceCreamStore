@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404, HttpResponseRedirect
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from .models import *
-import sys
 
 # Create your views here.
 class index(View):
@@ -19,23 +19,26 @@ class index(View):
 
 class login_view(View):
     template_name = "store/login.html"
+    next_page = ""
 
     def get(self, request):
+        self.next_page = request.GET.get('next', '')
         return render(request, self.template_name, {})
 
+    @method_decorator(csrf_protect)
     def post(self, request):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
-        next_page = ""
         if user is not None:
             login(request, user)
-            if "next" not in request.GET:
-                next_page = "/store/"
+            if self.next_page == "":
+                return HttpResponseRedirect("/store/") # or success page
             else:
-                next_page = request.GET['next']
-            return HttpResponseRedirect(next_page)
-        return render(request, self.template_name, {'err_message': 'Invalid username/password'})
+                return HttpResponseRedirect(self.next_page)
+            return render(request, self.template_name, {'next': self.next_page})
+        else:
+            return render(request, self.template_name, {'err_message': 'Invalid username/password'})
 
 class register(View):
     template_name = "store/register.html"
@@ -80,8 +83,6 @@ class register(View):
             newUser.save()
             return render(request, self.template_name)
         else:
-            response["password"] = ""
-            response["repassword"] = ""
             return render(request, self.template_name, response)
 
 class all_product(View):

@@ -138,21 +138,24 @@ class profile(View):
      
     @method_decorator(login_required)
     def get(self, request):
-        self.post(request)
+        return render(request, self.template_name)
 
     @method_decorator(login_required)
     def post(self, request):
-        print "Id:", request.user.id
+        print "hello" + authen
         user = CustomUser.objects.get(id=request.user.id)
-        return render(request, self.template_name, {
-                'username':user.username,
-                'first_name':user.first_name,
-                'last_name':user.last_name,
-                'email':user.email,
-                'address':user.address,
-                'tel':user.tel,
-                'company':user.company
-            })
+        user.first_name = request.POST.get('first_name', '')
+        user.last_name = request.POST.get('last_name', '')
+        user.address = request.POST.get('address', '')
+        user.tel = request.POST.get('tel', '')
+        authen = authenticate(username=user.username, password=request.POST.get('password', ''))
+        if authen is not None:
+            user.save()
+            messages.success(request, "Successfully edited profile.")
+            return render(request, self.template_name)
+        messages.error(request, "Invalid password")
+        return render(request, self.template_name)
+
 
 class contact_us(View):
     template_name = "store/contact_us.html"

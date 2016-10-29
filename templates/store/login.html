@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <p style="align: center; color:red; font-size: 11px"> {{ err_message }} </p>
     <form method="post">
     	Username:<br>
     	<input type="text" name="username" value="{{username}}"><br>
     	Password:<br>
-        <input type="text" name="password"><br>
+        <input type="password" name="password" autocomplete="off"><br>
     	<input type="submit" value="Login">
     {% csrf_token %}
     </form>

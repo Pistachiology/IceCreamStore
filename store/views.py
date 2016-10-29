@@ -2,10 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404, HttpResponseRedirect
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from .models import *
 
@@ -17,7 +16,7 @@ class index(View):
         #print created
         return render(request, self.template_name, {})
 
-class login(View):
+class login_view(View):
     template_name = "store/login.html"
 
     def get(self, request):
@@ -29,6 +28,7 @@ class login(View):
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
         if user is not None:
+            login(request, user)
             return render(request, self.template_name, {'err_message': user})
         else:
             return render(request, self.template_name, {'err_message': err_message})
@@ -36,7 +36,7 @@ class login(View):
 class register(View):
     template_name = "store/register.html"
 
-    #@method_decorator(login_required)
+    @method_decorator(login_required)
     def get(self, request):
         #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
         #    return redirect("/store/login")

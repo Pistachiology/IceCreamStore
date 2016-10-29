@@ -79,12 +79,23 @@ class register(View):
 
 class all_product(View):
     template_name = "store/all_product.html"
-
     def get(self, request):
-        pass
+        return self.post(request)
 
     def post(self, request):
-        pass
+        response = {}
+        products = Product.objects.all()
+        items = []
+        for product in products:
+            print product.name_product
+            items.append( {
+                'name_product':product.name_product,
+                'amount_product':product.amount_product,
+                'price_product':product.price_product,
+                'score_product':product.score_product
+            })
+        response['products'] = items
+        return render(request, self.template_name, response)
 
 class product(View):
     template_name = "store/product.html"

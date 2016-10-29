@@ -18,7 +18,7 @@ class Product(models.Model):
     name_product = models.CharField(max_length=20)
     amount_product = models.IntegerField()
     price_product = models.FloatField(max_length=5)
-    score_product = models.IntegerField()
+    score_product = models.FloatField()
 
 class Order(models.Model):
     order_date = models.DateField()

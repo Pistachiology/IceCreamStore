@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.db import connection
+from django.contrib import messages
 from .models import *
-import sys
+# import sys
 
 # Create your views here.
 class index(View):
@@ -19,7 +21,6 @@ class index(View):
 
 class login_view(View):
     template_name = "store/login.html"
-
     def get(self, request):
         return render(request, self.template_name, {})
 
@@ -40,7 +41,7 @@ class login_view(View):
 class register(View):
     template_name = "store/register.html"
 
-    @method_decorator(login_required)
+    # @method_decorator(login_required)
     def get(self, request):
         #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
         #    return redirect("/store/login")
@@ -78,7 +79,8 @@ class register(View):
                            company=response['company'])
             newUser.set_password(response['password'])
             newUser.save()
-            return render(request, self.template_name)
+            messages.success(request, 'Register Complete')
+            return redirect('/store/login')
         else:
             response["password"] = ""
             response["repassword"] = ""
@@ -86,12 +88,23 @@ class register(View):
 
 class all_product(View):
     template_name = "store/all_product.html"
-
     def get(self, request):
-        pass
+        return self.post(request)
 
     def post(self, request):
-        pass
+        response = {}
+        products = Product.objects.all()
+        items = []
+        for product in products:
+            print product.name_product
+            items.append( {
+                'name_product':product.name_product,
+                'amount_product':product.amount_product,
+                'price_product':product.price_product,
+                'score_product':product.score_product
+            })
+        response['products'] = items
+        return render(request, self.template_name, response)
 
 class product(View):
     template_name = "store/product.html"

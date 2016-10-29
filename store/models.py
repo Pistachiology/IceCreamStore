@@ -12,15 +12,15 @@ class Product(models.Model):
     name_product = models.CharField(max_length=20)
     amount_product = models.IntegerField()
     price_product = models.FloatField(max_length=5)
-    score_product = models.IntegerField()
+    score_product = models.FloatField()
 
 class Order(models.Model):
     order_date = models.DateField()
     sum_price = models.FloatField()
-    list_product = models.ManyToManyField(Product, through='Order_list')
+    list_product = models.ManyToManyField(Product, through='OrderList')
     id_user = models.ForeignKey(User,on_delete=models.CASCADE)
 
-class Order_list(models.Model):
+class OrderList(models.Model):
     id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
     id_product = models.ForeignKey(Product,on_delete=models.CASCADE)
     qty_product = models.IntegerField()

@@ -11,4 +11,11 @@
     {% csrf_token %}
     </form>
     <form action="/store/register" method="get"><input type="submit" value="Register"/>{% csrf_token %}</form>
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    </script>
+    {% endif %}
 {% endblock %}

@@ -3,3 +3,5 @@ config.json
 /**/*.pyc
 /store/migrations/*
 *.swp
+/store/product_image/*
+!/store/product_image/None/*

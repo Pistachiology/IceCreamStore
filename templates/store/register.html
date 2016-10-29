@@ -4,21 +4,21 @@
 <div><span class="err_message"><p style="color:red">{{ err_occur }}</p><ul style="font-size:12px; color:red">{{ err_message | safe }}</ul></div>   
     <form method="post">
     	Username:<br>
-    	<input type="text" name="username"><br>
+    	<input type="text" name="username" value="{{username}}"><br>
     	Password:<br>
-        <input type="password" name="password"><br>
+        <input type="password" name="password" value="{{password}}"><br>
     	Re-Password:<br>
-    	<input type="password" name="repassword"><br>
+    	<input type="password" name="repassword" value="{{repassword}}"><br>
     	First Name:<br>
-    	<input type="text" name="firstname"><br>
+    	<input type="text" name="firstname" value={{firstname}}><br>
     	Last Name:<br>
-    	<input type="text" name="lastname"><br>
+    	<input type="text" name="lastname" value={{lastname}}><br>
     	Address:<br>
-    	<input type="text" name="address"><br>
+    	<input type="text" name="address" value={{address}}><br>
     	Tel.:<br>
-    	<input type="text" name="tel"><br>
+    	<input type="text" name="tel" value={{tel}}><br>
     	Company:<br>
-    	<input type="text" name="company"><br>
+    	<input type="text" name="company" value={{company}}><br>
     	<input type="submit" value="Submit">
     {% csrf_token %}
     </form>

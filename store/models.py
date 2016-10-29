@@ -13,7 +13,7 @@ class User(models.Model):
     address = models.CharField(max_length=300)
     tel = models.CharField(max_length=20)
     company = models.CharField(max_length=50)
-
+    
 class Product(models.Model):
     name_product = models.CharField(max_length=20)
     amount_product = models.IntegerField()

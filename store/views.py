@@ -14,7 +14,7 @@ class index(View):
 class register(View):
     template_name = "store/register.html"
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
     def post(self, request):
         pass
@@ -69,3 +69,14 @@ class contact_us(View):
 
     def get(self, request):
         pass
+
+
+class login(View):
+    template_name = "store/login.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {})
+
+    def post(self, request):
+        return render(request, self.template_name, {})
+        

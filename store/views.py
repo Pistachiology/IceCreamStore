@@ -41,7 +41,7 @@ class history(View):
     template_name = "store/history.html"
 
     def get(self, request):
-        pass
+        return render(request, self.template_name, {})
 
 class all_track(View):
     template_name = "store/all_track.html"

@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div><span class="err_message"><p style="color:red">{{ err_occur }}</p><ul style="font-size:12px; color:red">{{ err_message | safe }}</ul></div>   
     <form method="post">
     	Username:<br>
     	<input type="text" name="username"><br>
     	Password:<br>
-    	<input type="password" name="password"><div style="visibility: {{ wrongpass }};">Password doesn't match.</div>   
+        <input type="password" name="password"><br>
     	Re-Password:<br>
     	<input type="password" name="repassword"><br>
     	First Name:<br>
@@ -19,5 +20,7 @@
     	Company:<br>
     	<input type="text" name="company"><br>
     	<input type="submit" value="Submit">
+    {% csrf_token %}
     </form>
+
 {% endblock %}

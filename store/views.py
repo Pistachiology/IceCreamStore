@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404, HttpResponseRedirect
 from django.views import View
+from django.views.decorators.csrf import ensure_csrf_cookie
+from models import User
+from django.db import connection
 #from .models import *
 
 # Create your views here.
@@ -13,16 +16,39 @@ class index(View):
 
 class register(View):
     template_name = "store/register.html"
-    wrongpass = "collapse"
+    err_message = ""
     def get(self, request):
-        return render(request, self.template_name, {'wrongpass':self.wrongpass})
+        return render(request, self.template_name)
 
     def post(self, request):
-        if request.POST['password'] == request.POST['repassword']:
-            pass
+        err_occur = "The following errors occur:"
+        err_message = ""
+        username = request.POST['username']
+        password = request.POST['password']
+        repassword = request.POST['repassword']
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        address = request.POST['address']
+        tel = request.POST['tel']
+        company = request.POST['company']
+        if User.objects.filter(username=username).exists():
+            err_message += "<li>Username already exists</li>"
+        if password == repassword:
+            err_message += "<li>Password not match.</li>"
+        if firstname == "":
+            err_message += "<li>Null value at First Name</li>"
+        if lastname == "":
+            err_message += "<li>Null value at Last Name</li>"
+        if address == "":
+            err_message += "<li>Null value at Address</li>"
+        if tel == "":
+            err_message += "<li>Null value at Tel.</li>"
+        if err_message == "":
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO store_user (username, password, isAdmin, firstName, lastName, address, tel, company) VALUES (%s, %s, 0, %s, %s, %s, %s, %s) ", (username, password, firstname, lastname, address, tel, company))
+            return render(request, self.template_name)
         else:
-            wrongpass = "visible"
-            return render(request, self.template_name, {'wrongpass':self.wrongpass})
+            return render(request, self.template_name, {'err_occur': err_occur, 'err_message': err_message})
 
 class all_product(View):
     template_name = "store/all_product.html"

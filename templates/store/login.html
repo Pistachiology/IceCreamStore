@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+    	Username:<br>
+    	<input type="text" name="username" value="{{username}}"><br>
+    	Password:<br>
+        <input type="text" name="password"><br>
+    	<input type="submit" value="Login">
+        <input type="submit" onclick="location.href='/register';" value="Register">
+    {% csrf_token %}
+    </form>
+{% endblock %}

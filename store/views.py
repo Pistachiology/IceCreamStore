@@ -32,9 +32,9 @@ class register(View):
             response['err_message'] += "<li>Password not match.</li>"
         if response['password'] == "":
             response['err_message'] += "<li>Password is required</li>"
-        if response['firstname'] == "":
+        if response['first_name'] == "":
             response['err_message'] += "<li>Null value at First Name</li>"
-        if response['lastname'] == "":
+        if response['last_name'] == "":
             response['err_message'] += "<li>Null value at Last Name</li>"
         if response['address'] == "":
             response['err_message'] += "<li>Null value at Address</li>"
@@ -43,9 +43,9 @@ class register(View):
         if response['err_message'] == "":
             newUser = User(username=response['username'],
                            password=response['password'],
-                           isAdmin=0,
-                           firstName=response['firstname'],
-                           lastName=response['lastname'],
+                           is_admin=0,
+                           first_name=response['first_name'],
+                           last_name=response['last_name'],
                            address=response['address'],
                            tel=response['tel'],
                            company=response['company'])

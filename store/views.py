@@ -23,17 +23,17 @@ class register(View):
     def post(self, request):
         err_occur = "The following errors occur:"
         err_message = ""
-        username = request.POST['username']
-        password = request.POST['password']
-        repassword = request.POST['repassword']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
-        address = request.POST['address']
-        tel = request.POST['tel']
-        company = request.POST['company']
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        repassword = request.POST.get('repassword', '')
+        firstname = request.POST.get('firstname', '')
+        lastname = request.POST.get('lastname', '')
+        address = request.POST.get('address', '')
+        tel = request.POST.get('tel', '')
+        company = request.POST.get('company', '')
         if User.objects.filter(username=username).exists():
             err_message += "<li>Username already exists</li>"
-        if password == repassword:
+        if password != repassword:
             err_message += "<li>Password not match.</li>"
         if firstname == "":
             err_message += "<li>Null value at First Name</li>"
@@ -44,8 +44,8 @@ class register(View):
         if tel == "":
             err_message += "<li>Null value at Tel.</li>"
         if err_message == "":
-            with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO store_user (username, password, isAdmin, firstName, lastName, address, tel, company) VALUES (%s, %s, 0, %s, %s, %s, %s, %s) ", (username, password, firstname, lastname, address, tel, company))
+            newUser = User(username=username, password=password, isAdmin=0, firstName=firstname, lastName=lastname, address=address, tel=tel, company=company)
+            newUser.save()
             return render(request, self.template_name)
         else:
             return render(request, self.template_name, {'err_occur': err_occur, 'err_message': err_message})

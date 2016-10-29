@@ -39,9 +39,9 @@
                                     <a href="{% url 'login_view' %}" class="btn btn-md btn-success btn-block">Back</a>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" form="register_form" value="Submit" class="btn btn-md btn-success btn-block">Register</a>
+                                    <button type="submit" form="register_form" value="Submit" class="btn btn-md btn-success btn-block">Register</button>
                                 </div>
-                    </div>
+                                {% csrf_token %}
                             </fieldset>
                         </form>
                     </div>

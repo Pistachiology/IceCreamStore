@@ -7,13 +7,13 @@ from django.db import models
 class User(models.Model):
     username = models.CharField(max_length=20,unique=True)
     password = models.CharField(max_length=30)
-    isAdmin = models.BooleanField()
-    firstName = models.CharField(max_length=30)
-    lastName = models.CharField(max_length=60)
+    is_admin = models.BooleanField()
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=60)
     address = models.CharField(max_length=300)
     tel = models.CharField(max_length=20)
     company = models.CharField(max_length=50)
-
+    
 class Product(models.Model):
     name_product = models.CharField(max_length=20)
     amount_product = models.IntegerField()

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404, HttpResponseRedirect
 from django.views import View
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db import connection
 from .models import *
 
 # Create your views here.
@@ -11,8 +13,9 @@ class index(View):
         #print created
         return render(request, self.template_name, {})
 
-class register(View):
-    template_name = "store/register.html"
+class login(View):
+    template_name = "store/login.html"
+
     def get(self, request):
         return render(request, self.template_name, {})
 
@@ -21,6 +24,48 @@ class register(View):
             pass
         else:
             return render(request, self.template_name, {})
+        return render(request, self.template_name, {})
+
+class register(View):
+    template_name = "store/register.html"
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        response = {}
+        response['err_occur'] = "The following errors occur:"
+        response['err_message'] = ''
+        for key in request.POST.keys():
+            response[key] = request.POST.get(key, '')
+        if User.objects.filter(username=response['username']).exists():
+            response['err_message'] += "<li>Username already exists</li>"
+        if response['username'] == "":
+            response['err_message'] += "<li>Username is required</li>"
+        if response['password'] != response['repassword']:
+            response['err_message'] += "<li>Password not match.</li>"
+        if response['password'] == "":
+            response['err_message'] += "<li>Password is required</li>"
+        if response['first_name'] == "":
+            response['err_message'] += "<li>Null value at First Name</li>"
+        if response['last_name'] == "":
+            response['err_message'] += "<li>Null value at Last Name</li>"
+        if response['address'] == "":
+            response['err_message'] += "<li>Null value at Address</li>"
+        if response['tel'] == "":
+            response['err_message'] += "<li>Null value at Tel.</li>"
+        if response['err_message'] == "":
+            newUser = User(username=response['username'],
+                           password=response['password'],
+                           is_admin=0,
+                           first_name=response['first_name'],
+                           last_name=response['last_name'],
+                           address=response['address'],
+                           tel=response['tel'],
+                           company=response['company'])
+            newUser.save()
+            return render(request, self.template_name)
+        else:
+            return render(request, self.template_name, response)
 
 class all_product(View):
     template_name = "store/all_product.html"

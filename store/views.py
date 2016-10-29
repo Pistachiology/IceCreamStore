@@ -65,6 +65,8 @@ class register(View):
             response['err_message'] += "<li>Null value at First Name</li>"
         if response['last_name'] == "":
             response['err_message'] += "<li>Null value at Last Name</li>"
+        if response['email'] == "":
+            response['err_message'] += "<li>Null value at E-mail</li>"
         if response['address'] == "":
             response['err_message'] += "<li>Null value at Address</li>"
         if response['tel'] == "":
@@ -74,6 +76,7 @@ class register(View):
                            is_superuser=0,
                            first_name=response['first_name'],
                            last_name=response['last_name'],
+                           email=response['email'],
                            address=response['address'],
                            tel=response['tel'],
                            company=response['company'])
@@ -135,12 +138,16 @@ class track(View):
 
 class profile(View):
     template_name = "store/profile.html"
-
+     
+    @method_decorator(login_required)
     def get(self, request):
-        pass
+        self.post(request)
 
+    @method_decorator(login_required)
     def post(self, request):
-        pass
+        user = get_object_or_404(User, username=request.username)
+        print user
+        return render(request, self.template_name, {'profile_user':user})
 
 class contact_us(View):
     template_name = "store/contact_us.html"

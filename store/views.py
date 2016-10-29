@@ -3,6 +3,10 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404, Ht
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db import connection
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from .models import *
 
 # Create your views here.
@@ -20,21 +24,19 @@ class login(View):
         return render(request, self.template_name, {})
 
     def post(self, request):
-        err_message = ""
+        err_message = "KUY"
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
-        userObject = User.objects.filter(username=username)
-        if userObject.exists():
-            if password == userObject[0].password:
-                request.session['is_logged_in'] = True
-            else:
-                err_message = "Invalid password."
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            return render(request, self.template_name, {'err_message': user})
         else:
-            err_message = "Invalid username."
-        return render(request, self.template_name, {'err_message': err_message})
+            return render(request, self.template_name, {'err_message': err_message})
 
 class register(View):
     template_name = "store/register.html"
+
+    #@method_decorator(login_required)
     def get(self, request):
         #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
         #    return redirect("/store/login")
@@ -46,7 +48,7 @@ class register(View):
         response['err_message'] = ""
         for key in request.POST.keys():
             response[key] = request.POST.get(key, '')
-        if User.objects.filter(username=response['username']).exists():
+        if CustomUser.objects.filter(username=response['username']).exists():
             response['err_message'] += "<li>Username already exists</li>"
         if response['username'] == "":
             response['err_message'] += "<li>Username is required</li>"
@@ -63,14 +65,14 @@ class register(View):
         if response['tel'] == "":
             response['err_message'] += "<li>Null value at Tel.</li>"
         if response['err_message'] == "":
-            newUser = User(username=response['username'],
-                           password=response['password'],
-                           is_admin=0,
+            newUser = CustomUser(username=response['username'],
+                           is_superuser=0,
                            first_name=response['first_name'],
                            last_name=response['last_name'],
                            address=response['address'],
                            tel=response['tel'],
                            company=response['company'])
+            newUser.set_password(response['password'])
             newUser.save()
             return render(request, self.template_name)
         else:

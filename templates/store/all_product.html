@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if products %}
     {% for product in products %}
         <h2>{{product.name_product}}</h2>
         Price : {{product.price_product}}<br>
@@ -8,4 +9,5 @@
         Score : {{product.score_product}}<br>
         <br>
     {% endfor %}
+    {% endif %}
 {% endblock %}

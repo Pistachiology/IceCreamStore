@@ -6,9 +6,9 @@ from datetime import datetime
 from django.db.models.query import EmptyQuerySet
 
 class Product(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=400)
-    image = models.ImageField(upload_to='product_image', default='product_image/None/no-img.jpg')
+    image = models.ImageField(upload_to='/static/product_image/', default='/static/product_image/None/no-img.jpg')
     amount = models.IntegerField()
     price = models.FloatField()
     score = models.FloatField()
@@ -68,7 +68,12 @@ class Tracking(models.Model):
         (3 , 'Delivering'),
         (4 , 'Success'),
     )
-    current_state = models.IntegerField(choices=STATE_CHOICE)
+    current_state = models.IntegerField(choices=STATE_CHOICE, default=1)
+
+    def add_or_update(self):
+        obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, defaults={'current_state':current_state})
+    def delete(self):
+        Tracking.objects.get(order=self.order, user=self.user).delete()
 
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

@@ -190,10 +190,9 @@ class cart(View):
         return render(request, self.template_name, {'user_cart': user_cart})
 
 class delete_cart(View):
-
-    def get(self, request):
+    def get(self, request, cart_id):
         try:
-            x = Cart.objects.get(id=request.GET['cart_id'])
+            x = Cart.objects.get(id=cart_id)
             x.delete()
         except Cart.DoesNotExist:
             messages.error(request, "Cart does not exist.")

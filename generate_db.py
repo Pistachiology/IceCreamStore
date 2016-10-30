@@ -28,7 +28,7 @@ icecream_img = [
 ]
 
 for i in range(10):
-    prod = Product.objects.get(id=i+1) 
+    prod = Product.objects.get_or_create(id=i+1) 
     prod.name = flavour[i]
     # prod.description = desciption[i]
     prod.image = '/static/product_image/' + icecream_img[i]

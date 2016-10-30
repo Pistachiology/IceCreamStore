@@ -26,7 +26,7 @@
                             <fieldset>
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="username" type="text" autofocus>
+                                    <input class="form-control" placeholder="Username" name="username" type="text" value="{{ username }}" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
@@ -35,22 +35,22 @@
                                     <input class="form-control" placeholder="Re enter password" name="repassword" type="password" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="First name" name="first_name" type="text" autofocus>
+                                    <input class="form-control" placeholder="First name" name="first_name" type="text" value="{{ first_name }}" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Last name" name="last_name" type="text" autofocus>
+                                    <input class="form-control" placeholder="Last name" name="last_name" type="text" value="{{last_name}}" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="text" autofocus>
+                                    <input class="form-control" placeholder="E-mail" name="email" type="text" value="{{email}}" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Address" name="address" type="text" autofocus>
+                                    <input class="form-control" placeholder="Address" name="address" type="text" value="{{address}}" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Telephone" name="tel" type="text" autofocus>
+                                    <input class="form-control" placeholder="Telephone" name="tel" type="text" value="{{tel}}" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Company" name="company" type="text" autofocus>
+                                    <input class="form-control" placeholder="Company" name="company" type="text" value="{{company}}" autofocus>
                                 </div>
 
                                 <!-- Change this to a button or input when using this as a form -->

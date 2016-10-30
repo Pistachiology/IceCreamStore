@@ -1,9 +1,9 @@
 $(document).ready(function(){
-    var delay = 500;
+    var delay = 800;
     $(".flash-notification").each(function( index ){
         var noti = this;
-        setTimeout(function (){ $(noti).slideUp(500, function(){}); }, delay);
-        delay = delay + 500;
+        setTimeout(function (){ $(noti).slideUp(800, function(){}); }, delay);
+        delay = delay + 800;
     });
 });
 function setAndShowNotificationBar(message){

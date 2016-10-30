@@ -8,7 +8,7 @@ from django.db.models.query import EmptyQuerySet
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=400)
-    image = models.ImageField(upload_to='media/product_image/', default='media/product_image/None/no-img.jpg')
+    image = models.ImageField(upload_to='media/media/product_image/', default='media/media/product_image/None/no-img.jpg')
     amount = models.IntegerField()
     price = models.FloatField()
     score = models.FloatField()

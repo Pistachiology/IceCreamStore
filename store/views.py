@@ -191,8 +191,8 @@ class cart(View):
 
 class delete_cart(View):
 
-    def get(self, request):
-        Cart.objects.get(id=request.GET['cart_id']).delete()
+    def get(self, request, cart_id):
+        Cart.objects.get(id=cart_id).delete()
         return HttpResponseRedirect("/store/cart/")
 
 class logout_view(View):

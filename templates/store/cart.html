@@ -49,7 +49,8 @@
                                             <td>{{ cart.qty }}</td>
                                             <td>{% mul cart.product.price cart.qty %} Baht</td>
                                             <td class="center"> {{ cart.product.description }} </td>
-                                            <td > <button type="button" class="btn btn-danger btn-xs">Delete</button> </td>
+                                            <td > 
+                                                <a href="{% url 'delete_cart' cart.id %}" type="button" class="btn btn-danger btn-xs">Delete</a> </td>
                                         </tr>
                                     </tbody>
                                 {% endfor %}

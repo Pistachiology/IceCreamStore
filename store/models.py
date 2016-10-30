@@ -28,6 +28,9 @@ class Product(models.Model):
     def delete(self):
         Product.objects.get(id=self.id).delete()
 
+    def __unicode__(self):
+        return self.name
+
 class CustomUser(AbstractUser):
     address = models.CharField(max_length=300)
     tel = models.CharField(max_length=20)
@@ -53,6 +56,7 @@ class Order(models.Model):
     sum_price = models.FloatField()
     list_product = models.ManyToManyField(Product, through='OrderList')
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+
 
 class OrderList(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)

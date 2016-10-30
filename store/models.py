@@ -15,6 +15,21 @@ class Product(models.Model):
     amount = models.IntegerField()
     price = models.FloatField(max_length=5)
     score = models.FloatField()
+    
+    def add_or_update(self):
+        defaults = {
+            'name':self.name,
+            'description':self.description,
+            'image':self.image,
+            'amount':self.amount,
+            'price':self.price,
+            'score':self.score    
+        }
+        obj, created = Product.objects.update_or_create(id=self.id,defaults=defaults)
+        return created
+
+    def delete(self):
+        Product.objects.get(id=self.id).delete()
 
 class Order(models.Model):
     date = models.DateField()

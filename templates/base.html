@@ -157,7 +157,9 @@
 
     <script src="{% static 'js/custom.js' %}"></script>
     <script>
+{% if not err_message %}
         $("#notification_bar").hide();
+{% endif %}
         $("button#btn_notification").click(function(){ $("#notification_bar").fadeOut();});
     </script>
     {% block js %} {% endblock %}

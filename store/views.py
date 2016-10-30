@@ -76,7 +76,7 @@ class register(View):
             messages.error(request, 'Address can\'t be empty', extra_tags='alert-danger')
         if response['tel'] == "":
             messages.error(request, 'Telephone can\'t be empty', extra_tags='alert-danger')
-        if list(messages.get_messages(request)) == 0:
+        if not list(messages.get_messages(request)):
             try:
                 newUser = CustomUser(username=response['username'],
                                is_superuser=0,

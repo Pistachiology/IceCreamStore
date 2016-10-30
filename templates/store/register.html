@@ -8,7 +8,16 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"> Register </h3>
                     </div>
+{% if err_message %}
+		    <div class="row">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                {{ err_message }}<a href="#" class="alert-link">Alert Link</a>.
+                         </div>
+	            </div>	
+{% endif %}
                     <div class="panel-body">
+
                         <form role="form" method="POST" action="{% url 'register' %}" form="register_form" >
                             <fieldset>
                                 {% csrf_token %}

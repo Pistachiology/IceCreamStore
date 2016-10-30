@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.db import connection
+from django.db import connection, IntegrityError
 from django.contrib import messages
 from .models import *
 import sys
@@ -29,6 +29,7 @@ class login_view(View):
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
         next_page = ""
+        print user.id
         if user is not None:
             login(request, user)
             if "next" not in request.GET:
@@ -54,36 +55,42 @@ class register(View):
         for key in request.POST.keys():
             response[key] = request.POST.get(key, '')
         if CustomUser.objects.filter(username=response['username']).exists():
-            response['err_message'] += "<li>Username already exists</li>"
+            response['err_message'] = "Username already exists"
         if response['username'] == "":
-            response['err_message'] += "<li>Username is required</li>"
+            response['err_message'] = "Username is required"
         if response['password'] != response['repassword']:
-            response['err_message'] += "<li>Password not match.</li>"
+            response['err_message'] = "Password not match."
         if response['password'] == "":
-            response['err_message'] += "<li>Password is required</li>"
+            response['err_message'] = "Password is required"
         if response['first_name'] == "":
-            response['err_message'] += "<li>Null value at First Name</li>"
+            response['err_message'] = "Null value at First Name"
         if response['last_name'] == "":
-            response['err_message'] += "<li>Null value at Last Name</li>"
+            response['err_message'] = "Null value at Last Name"
         if response['email'] == "":
-            response['err_message'] += "<li>Null value at E-mail</li>"
+            response['err_message'] = "Null value at E-mail"
         if response['address'] == "":
-            response['err_message'] += "<li>Null value at Address</li>"
+            response['err_message'] = "Null value at Address"
         if response['tel'] == "":
-            response['err_message'] += "<li>Null value at Tel.</li>"
+            response['err_message'] = "Null value at Tel."
         if response['err_message'] == "":
-            newUser = CustomUser(username=response['username'],
-                           is_superuser=0,
-                           first_name=response['first_name'],
-                           last_name=response['last_name'],
-                           email=response['email'],
-                           address=response['address'],
-                           tel=response['tel'],
-                           company=response['company'])
-            newUser.set_password(response['password'])
-            newUser.save()
-            messages.success(request, 'Register Complete', extra_tags='register_success')
-            return redirect('/store/login')
+            try:
+                newUser = CustomUser(username=response['username'],
+                               is_superuser=0,
+                               first_name=response['first_name'],
+                               last_name=response['last_name'],
+                               email=response['email'],
+                               address=response['address'],
+                               tel=response['tel'],
+                               company=response['company'])
+                newUser.set_password(response['password'])
+                newUser.save()
+                messages.success(request, 'Register Complete', extra_tags='register_success')
+                return redirect('/store/login')
+            except IntegrityError as e:
+                response['err_message'] = "Username already exists(2)"
+                response["password"] = ""
+                response["repassword"] = ""
+                return render(request, self.template_name, response)
         else:
             response["password"] = ""
             response["repassword"] = ""

@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from datetime import datetime
 from django.db.models.query import EmptyQuerySet
 
@@ -28,7 +28,7 @@ class Product(models.Model):
     def delete(self):
         Product.objects.get(id=self.id).delete()
 
-class CustomUser(User):
+class CustomUser(AbstractUser):
     address = models.CharField(max_length=300)
     tel = models.CharField(max_length=20)
     company = models.CharField(max_length=50)

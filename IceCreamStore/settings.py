@@ -123,6 +123,7 @@ LANGUAGE_CODE = 'th'
 
 TIME_ZONE = 'Asia/Bangkok'
 
+AUTH_USER_MODEL = 'store.CustomUser'
 USE_I18N = True
 
 USE_L10N = True

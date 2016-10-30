@@ -100,17 +100,7 @@ class all_product(View):
     def get(self, request):
         response = {}
         products = Product.objects.all()
-        items = []
-        for product in products:
-            # print product.name
-            items.append( {
-                'id':product.id,
-                'name':product.name,
-                'amount':product.amount,
-                'price':product.price,
-                'score':product.score
-            })
-        response['products'] = items
+        response['products'] = products
         return render(request, self.template_name, response)
 
 class product(View):

@@ -14,13 +14,15 @@ class Command(BaseCommand):
             return "product_%s" % (''.join([ random.choice(string.letters) for i in range(10)] ))
         def random_price():
             return random.randint(100, 300)
-
         def random_score():
             return random.randint(0, 10)
         def random_amount():
             return random.randint(0, 100)
+        def random_description():
+            return "description_%s" % (''.join([ random.choice(string.letters) for i in range(20)] ))
+
 
         for product_count in options['product_count']:
             for i in range(product_count):
-                product = Product(name=random_name(), price=random_price(), amount=random_amount(), score=random_score())
+                product = Product(name=random_name(), price=random_price(), amount=random_amount(), score=random_score(), description=random_description())
                 product.save()

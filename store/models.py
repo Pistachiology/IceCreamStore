@@ -16,7 +16,7 @@ class Product(models.Model):
     price = models.FloatField(max_length=5)
     score = models.FloatField()
     
-    def AddOrUpdateProduct(self):
+    def add_or_update(self):
         defaults = {
             'name':self.name,
             'description':self.description,
@@ -28,7 +28,7 @@ class Product(models.Model):
         obj, created = Product.objects.update_or_create(id=self.id,defaults=defaults)
         return created
 
-    def DeleteProduct(self):
+    def delete(self):
         Product.objects.get(id=self.id).delete()
 
 class Order(models.Model):

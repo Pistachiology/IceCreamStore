@@ -25,12 +25,6 @@ class login_view(View):
         return render(request, self.template_name, {})
 
     def post(self, request):
-        if request.POST['password'] == request.POST['repassword']:
-            pass
-        else:
-            return render(request, self.template_name, {})
-        return render(request, self.template_name, {})
-        err_message = ""
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)

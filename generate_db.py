@@ -24,7 +24,7 @@ icecream_img = [
     'very-berry-stawberry.png',
     'chocolate.png',
     'paline-n-cream.png',
-    'showflavour.jpg'     
+    'snowflavour.jpg'     
 ]
 
 for i in range(10):

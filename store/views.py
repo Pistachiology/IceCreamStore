@@ -20,13 +20,11 @@ class login(View):
         return render(request, self.template_name, {})
 
     def post(self, request):
-<<<<<<< HEAD
         if request.POST['password'] == request.POST['repassword']:
             pass
         else:
             return render(request, self.template_name, {})
         return render(request, self.template_name, {})
-=======
         err_message = ""
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
@@ -39,7 +37,6 @@ class login(View):
         else:
             err_message = "Invalid username."
         return render(request, self.template_name, {'err_message': err_message})
->>>>>>> ab56deb5427604f3230e40f6c3a70a9d716c5963
 
 class register(View):
     template_name = "store/register.html"

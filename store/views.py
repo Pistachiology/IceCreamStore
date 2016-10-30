@@ -186,3 +186,14 @@ class cart(View):
 
     def get(self, request):
         return render(request, self.template_name, {})
+
+class logout_view(View):
+    template_name = "store/logout.html"
+    
+    def get(request):
+        logout(request)
+        return HttpResponseRedirect("/store/")
+
+    def post(request):
+        logout(request)
+        return HttpResponseRedirect("/store/")

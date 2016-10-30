@@ -33,7 +33,6 @@ class CustomUser(User):
     tel = models.CharField(max_length=20)
     company = models.CharField(max_length=50)
     user_cart = models.ManyToManyField(Product, through='Cart')
-    order_track = models.ManyToManyField(Order, through='Tracking')
 
     def purchase(self):
         if self.user_cart.all().count() == 0:

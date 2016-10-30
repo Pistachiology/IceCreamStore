@@ -192,7 +192,11 @@ class cart(View):
 class delete_cart(View):
 
     def get(self, request):
-        Cart.objects.get(id=request.GET['cart_id']).delete()
+        try:
+            x = Cart.objects.get(id=request.GET['cart_id'])
+            x.delete()
+        except Cart.DoesNotExist:
+            messages.error(request, "Cart does not exist.")
         return HttpResponseRedirect("/store/cart/")
 
 class logout_view(View):

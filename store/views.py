@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from django.db import connection, IntegrityError
 from django.contrib import messages
 from .models import *
-from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core import serializers

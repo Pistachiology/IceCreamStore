@@ -1,39 +1,35 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
-
-class User(models.Model):
-    username = models.CharField(max_length=20,unique=True)
-    password = models.CharField(max_length=30)
-    is_admin = models.BooleanField()
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=60)
+class CustomUser(User):
     address = models.CharField(max_length=300)
     tel = models.CharField(max_length=20)
     company = models.CharField(max_length=50)
     
 class Product(models.Model):
-    name_product = models.CharField(max_length=20)
-    amount_product = models.IntegerField()
-    price_product = models.FloatField(max_length=5)
-    score_product = models.IntegerField()
+    name = models.CharField(max_length=20)
+    description = models.CharField(max_length=400)
+    image = models.ImageField(upload_to='product_image', default='product_image/None/no-img.jpg')
+    amount = models.IntegerField()
+    price = models.FloatField(max_length=5)
+    score = models.FloatField()
 
 class Order(models.Model):
-    order_date = models.DateField()
+    date = models.DateField()
     sum_price = models.FloatField()
     list_product = models.ManyToManyField(Product, through='OrderList')
-    id_user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class OrderList(models.Model):
-    id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
-    id_product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    qty_product = models.IntegerField()
+    order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product,on_delete=models.CASCADE)
+    qty = models.IntegerField()
 
 class Tracking(models.Model):
-    id_order = models.ForeignKey(Order,on_delete=models.CASCADE)
-    id_user = models.ForeignKey(User,on_delete=models.CASCADE)
+    order_id = models.ForeignKey(Order,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     STATE_CHOICE = (
         (1 , 'Processing'),
         (2 , 'Preparing'),

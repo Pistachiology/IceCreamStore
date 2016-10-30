@@ -4,7 +4,6 @@ from . import views
 
 urlpatterns = [
         url(r'^$', views.index.as_view(), name='index'),
-        url(r'^login/?$', views.login.as_view(), name='login'),
         url(r'^register/?$', views.register.as_view(), name='register'),
         url(r'^product/?$', views.all_product.as_view(), name='all_product'),
         url(r'^product/(?P<product_id>[0-9]+)/?$', views.product.as_view(), name='product'),
@@ -13,5 +12,8 @@ urlpatterns = [
         url(r'^track/(?P<track_id>[0-9]+)/?$', views.track.as_view(), name='track'),
         url(r'^profile/?$', views.profile.as_view(), name='profile'),
         url(r'^contact_us/?$', views.contact_us.as_view(), name='contact_us'),
-        
+        # TODO: fix url redirection
+        url(r'^login/?$', views.login_view.as_view(), name='login_view'),
+        url(r'^cart/?$', views.cart.as_view(), name='cart'),
+        url(r'^.*$', views.index.as_view(), name='somethingelse'),
 ]

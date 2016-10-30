@@ -210,9 +210,18 @@ class logout_view(View):
         return HttpResponseRedirect("/store/")
 
 class purchase(View):
+    template_name = "store/cart.html"
+    @method_decorator(login_required)
     def post(self, request):
-        pass
-
+        if request.user.purchase() :
+            messages.success(request, "Purchase success.")
+        else:
+            messages.error(request, "Purchase faild.")
+        return HttpResponseRedirect("/store/cart/")  
+        
 class clear_cart(View):
+    template_name = "store/cart.html"
+    @method_decorator(login_required) 
     def get(self, request):
-        pass
+        request.user.user_cart.clear()
+        return HttpResponseRedirect("/store/cart/")  

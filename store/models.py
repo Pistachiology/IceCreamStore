@@ -25,9 +25,6 @@ class Product(models.Model):
         obj, created = Product.objects.update_or_create(id=self.id,defaults=defaults)
         return created
 
-    def delete(self):
-        Product.objects.get(id=self.id).delete()
-
     def __unicode__(self):
         return self.name
 
@@ -76,8 +73,6 @@ class Tracking(models.Model):
 
     def add_or_update(self):
         obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, defaults={'current_state':current_state})
-    def delete(self):
-        Tracking.objects.get(order=self.order, user=self.user).delete()
 
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -87,5 +82,3 @@ class Cart(models.Model):
     def add_or_update(self):
         obj, created = Cart.objects.update_or_create(user=self.user, product=self.product, defaults={'qty':self.qty})
         return created
-    def delete(self):
-        Cart.objects.get(user=self.user, product=self.product).delete()

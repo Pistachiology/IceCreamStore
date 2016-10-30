@@ -189,6 +189,15 @@ class cart(View):
         user_cart = Cart.objects.filter(user=request.user)
         return render(request, self.template_name, {'user_cart': user_cart})
 
+class delete_cart(View):
+    def get(self, request, cart_id):
+        try:
+            x = Cart.objects.get(id=cart_id)
+            x.delete()
+        except Cart.DoesNotExist:
+            messages.error(request, "Cart does not exist.")
+        return HttpResponseRedirect("/store/cart/")
+
 class logout_view(View):
     template_name = "store/logout.html"
     

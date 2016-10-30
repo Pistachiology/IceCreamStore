@@ -9,6 +9,12 @@ from django.contrib.auth.models import User
 from django.db import connection, IntegrityError
 from django.contrib import messages
 from .models import *
+from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.utils.datastructures import MultiValueDictKeyError
+from django.core import serializers
+from django.http import JsonResponse, HttpResponse
+import json
 import sys
 
 # Create your views here.
@@ -102,11 +108,22 @@ class all_product(View):
         response['products'] = products
         return render(request, self.template_name, response)
 
+    # purchase
+    def post(self, request):
+    	try:
+            product_id = int(request.POST['product_id'])
+	    amount = int(request.POST['amount'])
+        except ValueError, MultiValueDictKeyError:
+            raise Http404("product doesn't exists")
+        return JsonResponse({"status": "success"})
+
 class product(View):
     template_name = "store/product.html"
 
     def get(self, request, product_id):
-        pass
+        product = get_object_or_404(Product,pk=product_id)
+        product = json.loads(serializers.serialize('json', [product])[1:-1])
+        return JsonResponse(product)
 
     def post(self, request, product_id):
         pass

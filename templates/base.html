@@ -116,11 +116,11 @@
                                                                                                     
         <div id="page-wrapper">
             <div class="container-fluid">
-                <div class="row" style="position: fixed; top:10%; left:25%; width:50%; z-index:1999;">
+                <div class="row" style="position: fixed; top:10%; left:25%; width:50%; z-index:1999; text-align:center;">
                     <div class="col-md-10 col-md-offset-1">
                             <div class="alert alert-info alert-dismissable" id="notification_bar">
                                 <button type="button" class="close" id="btn_notification">×</button>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
+                                <div id="notification-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </div>
                             </div>
                     </div>
                     {% for message in messages %}

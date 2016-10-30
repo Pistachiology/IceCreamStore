@@ -75,9 +75,11 @@
 {% block js %}
 <script>
 $( document ).ready(function() {
-    $("#notification_bar").hide();
     $("a.purchase_modal").click(function (){
-	$.getJSON("{% static 'sample/product.json' %}", function(product) {
+        var product_id = $(this).attr('id').replace("product_", "");
+	$.getJSON("{% url 'all_product' %}/" + product_id, function(product_raw) {
+            product = product_raw.fields;
+            product.id = product_raw.pk;
             $("input[name=max_amount]").val(product.amount);
             $("button[name=purchase_button]").val(product.id);
 	    $("#myModal").modal('hide').modal('show');
@@ -85,8 +87,22 @@ $( document ).ready(function() {
     });
     $("button[name=purchase_button]").click(function() {
         $("#myModal").modal('hide');
-        $("#notification_bar").fadeOut().fadeIn();
-        alert("requesting {% url 'all_product' %}/" + this.value);
+        $.ajax({
+                url: "{% url 'all_product' %}",
+                method: "POST",
+                data: { product_id: this.value, amount: $("input[name=amount]").val() },
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == "success"){
+                        setAndShowNotificationBar("Purchase successfully !");
+                    }else{
+                        setAndShowNotificationBar("Hmm ?");
+                    }
+                },
+                error: function (ajaxContext) {
+                        setAndShowNotificationBar("Product not found !");
+                }
+        });
     });
     $("button#btn_notification").click(function(){ $("#notification_bar").fadeOut();});
 });

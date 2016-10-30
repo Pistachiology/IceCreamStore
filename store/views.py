@@ -216,7 +216,7 @@ class purchase(View):
         if request.user.purchase() :
             messages.success(request, "Purchase success.")
         else:
-            messages.error(request, "Purchase faild.")
+            messages.error(request, "Purchase failed.")
         return HttpResponseRedirect("/store/cart/")  
         
 class clear_cart(View):

@@ -7,22 +7,23 @@
 <div class="row">
     <!-- Card Projects -->
     {% for product in products %}
-    <div class="col-md-4 ">
+    <div class="col-lg-3">
         <div class="card">
             <div class="card-image">
-                <img class="img-responsive card-inside-image" src="http://material-design.storage.googleapis.com/publish/v_2/material_ext_publish/0Bx4BSt6jniD7TDlCYzRROE84YWM/materialdesign_introduction.png">
+                <!--<img class="img-responsive card-inside-image" src="http://material-design.storage.googleapis.com/publish/v_2/material_ext_publish/0Bx4BSt6jniD7TDlCYzRROE84YWM/materialdesign_introduction.png">-->
+                <img class="img-responsive card-inside-image" src="{% static product.image %}">
                 <span class="card-title"></span>
             </div>
 
             <div class="card-content">
                 <h4> {{ product.name }} </h4>
-                <p> A very popular and delicious flavor. Made from belguim chocolate </p>
+                <p> {{ product.description }} </p>
                 <br />
-                <p> <div style="text-align:left;float:left" ><b>{{ product.price}} B</b></div>  <div style="text-align: right;float:right;">&nbsp; <b>{{ product.score }}/10</b> </div> </p>
+                <p> <div style="text-align:left;float:left" ><b>{{ product.price }} B</b></div>  <div style="text-align: right;float:right;">&nbsp; <b>{{ product.score }}/10</b> </div> </p>
                 <br />
             </div>
             <div class="card-action">
-                <a href="#"  class="purchase_modal" id="product_{{ i }}"> Purchase </a>
+                <a href="#"  class="purchase_modal" id="product_{{ product.id }}"> Purchase </a>
             </div>
         </div>
     </div>

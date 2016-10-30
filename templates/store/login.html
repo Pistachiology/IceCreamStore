@@ -1,14 +1,34 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    {% if messages %}
-        <script>
-        {% for message in messages %}
-            {% if message.extra_tags == 'register_success' %}alert("{{message}}");{% endif %}
-        {% endfor %}
-        </script>
-    {% endif %}
+
     <div class="container">
+{% comment 'trash' %} a little bit trash code here bad handle refactor later.{% endcomment %}
+{% if messages %}
+    {% for message in messages %}
+        {% if message.extra_tags == 'register_success' %}
+        <div class="row" style="position: fixed; top:5%; left:25%; width:50%; z-index:1999; text-align:center;">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="alert alert-success alert-dismissable" id="notification_bar">
+                    <button type="button" class="close" id="btn_notification">×</button>
+                    {{message}} 
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% if err_message %}
+        <div class="row" style="position: fixed; top:5%; left:25%; width:50%; z-index:1999; text-align:center;">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="alert alert-danger alert-dismissable" id="notification_bar">
+                    <button type="button" class="close" id="btn_notification">×</button>
+                    {{ err_message }}
+                </div>
+            </div>
+        </div>
+    
+{% endif %}
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
@@ -27,7 +47,12 @@
                                 </div>
       
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" value="Submit" class="btn btn-lg btn-success btn-block">Login</a>
+                                <div class='col-lg-6'>
+                                    <a href ="{% url 'register' %}" class="btn btn-lg btn-success btn-block col-lg-6">Register</a>
+                                </div>
+                                <div class='col-lg-6'>
+                                    <button type="submit" value="Submit" class="btn btn-lg btn-success btn-block col-lg-6">Login</button>
+                                </div>
                             </fieldset>
                         </form>
                     </div>

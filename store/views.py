@@ -29,7 +29,6 @@ class login_view(View):
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
         next_page = ""
-        print user.id
         if user is not None:
             login(request, user)
             if "next" not in request.GET:

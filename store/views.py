@@ -112,7 +112,8 @@ class all_product(View):
     def post(self, request):
     	try:
             product_id = int(request.POST['product_id'])
-	    amount = int(request.POST['amount'])
+            amount = int(request.POST['amount'])
+            Cart(user=CustomUser.objects.get(id=request.user.id), product=Product.objects.get(id=product_id),qty=amount).add_or_update()
         except ValueError, MultiValueDictKeyError:
             raise Http404("product doesn't exists")
         return JsonResponse({"status": "success"})

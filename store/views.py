@@ -7,15 +7,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db import connection
-from django.contrib.messages import constants as messages
+from django.contrib import messages
 from .models import *
 import sys
-
-REGISTER_SUCCESS = 55
-
-MESSAGE_TAGS = {
-    REGISTER_SUCCESS:'register_success'
-}
 
 # Create your views here.
 class index(View):
@@ -88,7 +82,7 @@ class register(View):
                            company=response['company'])
             newUser.set_password(response['password'])
             newUser.save()
-            messages.add_message(request, REGISTER_SUCCESS, 'Register Complete')
+            messages.success(request, 'Register Complete', extra_tags='register_success')
             return redirect('/store/login')
         else:
             response["password"] = ""

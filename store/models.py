@@ -36,7 +36,7 @@ class CustomUser(AbstractUser):
 
     def purchase(self):
         if self.user_cart.all().count() == 0:
-            return
+            return False
         order = Order(user=self,sum_price=0)
         order.save()
         for product in self.user_cart.all():
@@ -47,6 +47,7 @@ class CustomUser(AbstractUser):
             OrderList(order=order, product=product, qty=item.qty).save()
         self.user_cart.clear()
         order.save()
+        return True
     
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)

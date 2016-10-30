@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load utils %}
 
 {% block css %}
 {% load static %}
@@ -43,10 +44,10 @@
                                 {% for cart in user_cart %}
                                     <tbody>
                                         <tr class="odd gradeX">
-                                            <td>1</td>
+                                            <td> {{ forloop.counter }} </td>
                                             <td>{{ cart.product.name }}</td>
                                             <td>{{ cart.qty }}</td>
-                                            <td>{{ cart.product.price * cart.qty }} Baht</td>
+                                            <td>{% mul cart.product.price cart.qty %} Baht</td>
                                             <td class="center"> {{ cart.product.description }} </td>
                                             <td > <button type="button" class="btn btn-danger btn-xs">Delete</button> </td>
                                         </tr>

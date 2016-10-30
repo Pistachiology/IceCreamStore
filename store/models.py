@@ -4,24 +4,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
-class CustomUser(User):
-    address = models.CharField(max_length=300)
-    tel = models.CharField(max_length=20)
-    company = models.CharField(max_length=50)
-    cart = models.ManyToManyField(Product, through)
-
-    def purchase(self):
-        order = Order(user_id=self.id,sum_price=0)
-        order.save()
-        for item in self.cart:
-            product = Product.objects.get(id=item.product_id)
-            order.sum_price = item.qty * product.price
-            product.amount -= item.qty
-            product.add_or_update()
-            OrderList(user_id=item.user_id, product_id=item.product_id, qty=item.qty).save()
-        self.cart.clear()
-        order.save()
-    
 class Product(models.Model):
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=400)
@@ -45,6 +27,24 @@ class Product(models.Model):
     def delete(self):
         Product.objects.get(id=self.id).delete()
 
+class CustomUser(User):
+    address = models.CharField(max_length=300)
+    tel = models.CharField(max_length=20)
+    company = models.CharField(max_length=50)
+    cart = models.ManyToManyField(Product, through='Cart')
+
+    def purchase(self):
+        order = Order(user_id=self.id,sum_price=0)
+        order.save()
+        for item in self.cart:
+            product = Product.objects.get(id=item.product_id)
+            order.sum_price = item.qty * product.price
+            product.amount -= item.qty
+            product.add_or_update()
+            OrderList(user_id=item.user_id, product_id=item.product_id, qty=item.qty).save()
+        self.cart.clear()
+        order.save()
+    
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     sum_price = models.FloatField()
@@ -68,8 +68,8 @@ class Tracking(models.Model):
     current_state = models.IntegerField(choices=STATE_CHOICE)
 
 class Cart(models.Model):
-    user_id = ForeignKey(CustomUser, on_delete=models.CASCADE)
-    product_id = ForeignKey(Product, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     qty = models.IntegerField()
 
     def add_or_update(self):

@@ -16,5 +16,7 @@ urlpatterns = [
         url(r'^login/?$', views.login_view.as_view(), name='login_view'),
         url(r'^logout/?$', views.logout_view.as_view(), name='logout_view'),
         url(r'^cart/?$', views.cart.as_view(), name='cart'),
+        url(r'^purchase/?$', views.purchase.as_view(), name='purchase'),
+        url(r'^clearcart/?$', views.clear_cart.as_view(), name='clear_cart'),
         url(r'^.*$', views.index.as_view(), name='somethingelse'),
 ]

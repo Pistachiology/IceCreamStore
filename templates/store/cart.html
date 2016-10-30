@@ -41,19 +41,19 @@
                                         <th class="col-lg-1">Button</th>
                                     </tr>
                                 </thead>
+                                <tbody>
                                 {% for cart in user_cart %}
-                                    <tbody>
                                         <tr class="odd gradeX">
                                             <td> {{ forloop.counter }} </td>
-                                            <td>{{ cart.product.name }}</td>
-                                            <td>{{ cart.qty }}</td>
-                                            <td>{% mul cart.product.price cart.qty %} Baht</td>
+                                            <td> {{ cart.product.name }}</td>
+                                            <td class="center">  {{ cart.qty }}</td>
+                                            <td> {% mul cart.product.price cart.qty %} Baht</td>
                                             <td class="center"> {{ cart.product.description }} </td>
                                             <td > 
                                                 <a href="{% url 'delete_cart' cart.id %}" type="button" class="btn btn-danger btn-xs">Delete</a> </td>
                                         </tr>
-                                    </tbody>
                                 {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                         <!-- /.panel-body -->

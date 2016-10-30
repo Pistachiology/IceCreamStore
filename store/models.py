@@ -33,6 +33,7 @@ class CustomUser(User):
     tel = models.CharField(max_length=20)
     company = models.CharField(max_length=50)
     user_cart = models.ManyToManyField(Product, through='Cart')
+    order_track = models.ManyToManyField(Order, through='Tracking')
 
     def purchase(self):
         if self.user_cart.all().count() == 0:
@@ -68,7 +69,12 @@ class Tracking(models.Model):
         (3 , 'Delivering'),
         (4 , 'Success'),
     )
-    current_state = models.IntegerField(choices=STATE_CHOICE)
+    current_state = models.IntegerField(choices=STATE_CHOICE, default=1)
+
+    def add_or_update(self):
+        obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, defaults={'current_state':current_state})
+    def delete(self):
+        Tracking.objects.get(order=self.order, user=self.user).delete()
 
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

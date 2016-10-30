@@ -40,18 +40,18 @@
                                         <th class="col-lg-1">Button</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr class="odd gradeX">
-                                        <td>1</td>
-                                        <td>Chocolate</td>
-                                        <td>30</td>
-                                        <td>4.0 Baht</td>
-                                        <td class="center"> Sweet Chocolate </td>
-                                        <td> 
-                                            <a href="#link_to_remove_cart" type="button" class="btn btn-danger btn-xs">Delete</a> 
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                {% for cart in user_cart %}
+                                    <tbody>
+                                        <tr class="odd gradeX">
+                                            <td>1</td>
+                                            <td>{{ cart.product.name }}</td>
+                                            <td>{{ cart.qty }}</td>
+                                            <td>{{ cart.product.price * cart.qty }} Baht</td>
+                                            <td class="center"> {{ cart.product.description }} </td>
+                                            <td > <button type="button" class="btn btn-danger btn-xs">Delete</button> </td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
                             </table>
                         </div>
                         <!-- /.panel-body -->

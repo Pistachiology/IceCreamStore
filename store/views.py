@@ -184,8 +184,10 @@ class contact_us(View):
 class cart(View):
     template_name = "store/cart.html"
 
+    @method_decorator(login_required)
     def get(self, request):
-        return render(request, self.template_name, {})
+        user_cart = Cart.objects.filter(user=request.user)
+        return render(request, self.template_name, {'user_cart': user_cart})
 
 class delete_cart(View):
 

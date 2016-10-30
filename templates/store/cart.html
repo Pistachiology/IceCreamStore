@@ -46,7 +46,7 @@
                                             <td>1</td>
                                             <td>{{ cart.product.name }}</td>
                                             <td>{{ cart.qty }}</td>
-                                            <td>{{ cart.product.price * cart.qty }} Baht</td>
+                                            <td>{% multiply cart.qty cart.product.price %}</td>
                                             <td class="center"> {{ cart.product.description }} </td>
                                             <td > <button type="button" class="btn btn-danger btn-xs">Delete</button> </td>
                                         </tr>

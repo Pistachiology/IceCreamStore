@@ -107,7 +107,7 @@ class all_product(View):
         response['products'] = products
         return render(request, self.template_name, response)
 
-    # purchase
+    @method_decorator(login_required)
     def post(self, request):
     	try:
             product_id = int(request.POST['product_id'])

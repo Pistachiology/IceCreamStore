@@ -4,7 +4,7 @@ from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import connection, IntegrityError
 from django.contrib import messages
@@ -190,10 +190,10 @@ class cart(View):
 class logout_view(View):
     template_name = "store/logout.html"
     
-    def get(request):
+    def get(self, request):
         logout(request)
         return HttpResponseRedirect("/store/")
 
-    def post(request):
+    def post(self, request):
         logout(request)
         return HttpResponseRedirect("/store/")

@@ -199,3 +199,11 @@ class logout_view(View):
     def post(self, request):
         logout(request)
         return HttpResponseRedirect("/store/")
+
+class purchase(View):
+    def post(self, request):
+        pass
+
+class clear_cart(View):
+    def get(self, request):
+        pass

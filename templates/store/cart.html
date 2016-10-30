@@ -62,17 +62,19 @@
                 <div class="row">
                     <div class="col-lg-offset-6 col-lg-4">
                         <div class="col-lg-12">
-                        <form role="form" class="form-inline">
+                            <form role="form" class="form-inline" method="post" action="{% url 'purchase' %}" id="purchase-item">
                                 <div class="form-group">
+                                    {% csrf_token %}
                                     <label>Credit Card: </label>
-                                    <input placeholder="5601-2313-4444" class="form-control">
+                                    <input placeholder="5601-2313-4444" class="form-control" name='credit'>
                                 </div>
-                        </form>
+                            </form>
                         </div>
                     </div>
                     <div class="col-lg-2"> 
-                        <button type="button" class="btn btn-primary btn-md">Clear </button> 
-                        <button type="button" class="btn btn-primary btn-md">Purchase</button> 
+
+                        <a type="button" href="{% url 'clear_cart' %}" class="btn btn-primary btn-md">Clear </a> 
+                        <button type="submit" class="btn btn-primary btn-md" form="purchase-item">Purchase</button> 
                     </div>
                 </div>
             </div>

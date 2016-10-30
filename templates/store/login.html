@@ -5,29 +5,16 @@
     <div class="container">
 {% comment 'trash' %} a little bit trash code here bad handle refactor later.{% endcomment %}
 {% if messages %}
+<div class="row" style="position: fixed; top:5%; left:25%; width:50%; z-index:1999; text-align:center;">
     {% for message in messages %}
-        {% if message.extra_tags == 'register_success' %}
-        <div class="row" style="position: fixed; top:5%; left:25%; width:50%; z-index:1999; text-align:center;">
             <div class="col-md-10 col-md-offset-1">
-                <div class="alert alert-success alert-dismissable" id="notification_bar">
-                    <button type="button" class="close" id="btn_notification">×</button>
-                    {{message}} 
+                <div class="alert {{ message.extra_tags }} alert-dismissable fade flash-notification">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message }} 
                 </div>
             </div>
-        </div>
-        {% endif %}
     {% endfor %}
-{% endif %}
-{% if err_message %}
-        <div class="row" style="position: fixed; top:5%; left:25%; width:50%; z-index:1999; text-align:center;">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="alert alert-danger alert-dismissable" id="notification_bar">
-                    <button type="button" class="close" id="btn_notification">×</button>
-                    {{ err_message }}
-                </div>
-            </div>
-        </div>
-    
+</div>
 {% endif %}
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -61,3 +48,5 @@
         </div>
     </div>
 {% endblock %}
+
+

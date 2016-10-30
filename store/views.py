@@ -49,29 +49,28 @@ class register(View):
 
     def post(self, request):
         response = {}
-        response['err_occur'] = "The following errors occur:"
-        response['err_message'] = ""
         for key in request.POST.keys():
             response[key] = request.POST.get(key, '')
         if CustomUser.objects.filter(username=response['username']).exists():
-            response['err_message'] = "Username already exists"
+            messages.error(request, 'Username already exists', extra_tags='alert-danger')
         if response['username'] == "":
-            response['err_message'] = "Username is required"
+            messages.error(request, 'Username required', extra_tags='alert-danger')
         if response['password'] != response['repassword']:
-            response['err_message'] = "Password not match."
+            messages.error(request, 'Password not matched', extra_tags='alert-danger')
         if response['password'] == "":
-            response['err_message'] = "Password is required"
+            messages.error(request, 'Password required', extra_tags='alert-danger')
         if response['first_name'] == "":
+            messages.error(request, 'Firstname can\'t be empty', extra_tags='alert-danger')
             response['err_message'] = "Null value at First Name"
         if response['last_name'] == "":
-            response['err_message'] = "Null value at Last Name"
+            messages.error(request, 'Lastname can\'t be empty', extra_tags='alert-danger')
         if response['email'] == "":
-            response['err_message'] = "Null value at E-mail"
+            messages.error(request, 'E-mail can\'t be empty', extra_tags='alert-danger')
         if response['address'] == "":
-            response['err_message'] = "Null value at Address"
+            messages.error(request, 'Address can\'t be empty', extra_tags='alert-danger')
         if response['tel'] == "":
-            response['err_message'] = "Null value at Tel."
-        if response['err_message'] == "":
+            messages.error(request, 'Telephone can\'t be empty', extra_tags='alert-danger')
+        if list(messages.get_messages(request)) == 0:
             try:
                 newUser = CustomUser(username=response['username'],
                                is_superuser=0,
@@ -83,7 +82,7 @@ class register(View):
                                company=response['company'])
                 newUser.set_password(response['password'])
                 newUser.save()
-                messages.success(request, 'Register Complete', extra_tags='register_success')
+                messages.success(request, 'Register Complete', extra_tags='alert-success')
                 return redirect('/store/login')
             except IntegrityError as e:
                 response['err_message'] = "Username already exists(2)"

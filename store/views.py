@@ -243,3 +243,18 @@ class clear_cart(View):
     def get(self, request):
         request.user.user_cart.clear()
         return HttpResponseRedirect("/store/cart/")  
+
+class user_vote(View):
+    template_name = "store/vote.html" # not sure
+    
+    def get(self, request, product_id):
+        return HttpResponseRedirect("/store/")
+
+    def post(self, request, product_id):
+        vote = VoteProduct(
+            user=request.user,
+            product=Product.objects.get(id=product_id),
+            score=request.POST.get('score',0)
+        ) # not sure
+        vote.user_vote_or_update_score()
+        return HttpResponseRedirect("/store/")

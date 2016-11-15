@@ -12,6 +12,8 @@ class Product(models.Model):
     amount = models.IntegerField()
     price = models.FloatField()
     score = models.FloatField()
+    voter = models.IntegerField(default=0)
+    
     
     def add_or_update(self):
         defaults = {
@@ -48,7 +50,22 @@ class CustomUser(AbstractUser):
         self.user_cart.clear()
         order.save()
         return True
-    
+
+class VoteProduct(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    score = models.FloatField()
+
+    def user_vote_or_update_score(self):
+        obj, created = VoteProduct.objects.get_or_create(user=self.user, product=self.product)
+        if created:
+            self.product.score = ((self.product.score*self.product.voter) - obj.score + self.score)/self.product.voter
+        else :
+            temp_score = self.product.score*self.product.voter
+            self.product.voter += 1
+            self.product.score = (temp_score + self.score)/self.product.voter
+        self.product.save()
+
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     sum_price = models.FloatField()

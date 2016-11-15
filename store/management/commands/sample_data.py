@@ -27,19 +27,21 @@ icecream_img = [
     'very-berry-stawberry.png',
     'chocolate.png',
     'paline-n-cream.png',
-    'snowflavour.jpg'     
 ]
 
 
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
-
+    
     def add_arguments(self, parser):
         parser.add_argument('product_count', nargs='+', type=int)
 
     def handle(self, *args, **options):
+        self.r = random.randint(0,9)
+        def random_icecream():
+            self.r = random.randint(0,9)
         def random_name():
-            return random.choice(flavour)
+            return flavour[self.r]
         def random_price():
             return random.randint(100, 300)
         def random_score():
@@ -49,9 +51,10 @@ class Command(BaseCommand):
         def random_description():
             return "description_%s" % (''.join([ random.choice(string.letters) for i in range(20)] ))
         def random_image():
-            return "/product_image/{icecream_img}".format(icecream_img=random.choice(icecream_img))
+            return "/product_image/{icecream_img}".format(icecream_img=icecream_img[self.r])
 
         for product_count in options['product_count']:
             for i in range(product_count):
+                random_icecream()
                 product = Product(name=random_name(), price=random_price(), amount=random_amount(), score=random_score(), description=random_description(), image=random_image())
                 product.save()

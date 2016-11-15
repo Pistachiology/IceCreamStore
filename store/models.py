@@ -11,7 +11,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='media/media/product_image/', default='media/media/product_image/None/no-img.jpg')
     amount = models.IntegerField()
     price = models.FloatField()
-    score = models.FloatField()
+    score = models.FloatField(default=0)
     voter = models.IntegerField(default=0)
     
     

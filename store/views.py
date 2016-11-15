@@ -117,6 +117,24 @@ class all_product(View):
             raise Http404("product doesn't exists")
         return JsonResponse({"status": "success"})
 
+class popular_product(View):
+    template_name = "store/popular_product.html"
+    def get(self, request):
+        response = {}
+        products = Product.objects.all().order_by('-score')
+        response['products'] = products
+        return render(request, self.template_name, response)
+
+    @method_decorator(login_required)
+    def post(self, request):
+    	try:
+            product_id = int(request.POST['product_id'])
+            amount = int(request.POST['amount'])
+            Cart(user=CustomUser.objects.get(id=request.user.id), product=Product.objects.get(id=product_id),qty=amount).add_or_update()
+        except ValueError, MultiValueDictKeyError:
+            raise Http404("product doesn't exists")
+        return JsonResponse({"status": "success"})
+
 class product(View):
     template_name = "store/product.html"
 

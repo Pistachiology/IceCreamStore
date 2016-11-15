@@ -29,7 +29,18 @@ icecream_img = [
     'paline-n-cream.png',
 ]
 
-
+description = [
+    'its mixed contain with vanilla and chocolate chips',
+    'its feel like cookie in icecream and mixed by chocolate chips',
+    'its mixed by many of fruit juice',
+    'you will feel with pure vanilla so yummy!',
+    'its mixed by mint , chocolate and chocolate ships',
+    'you will feel with pure mocca its so yummy!',
+    'its mixed by chocolate , many nuts and mashmello',
+    'its mixed by many type of berrys ',
+    'its feel like pure chocolate from belgium',
+    'its mixed by almonds , precans , hazelnut and fudge ',
+]
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
     
@@ -49,7 +60,7 @@ class Command(BaseCommand):
         def random_amount():
             return random.randint(0, 100)
         def random_description():
-            return "description_%s" % (''.join([ random.choice(string.letters) for i in range(20)] ))
+            return description[self.r]
         def random_image():
             return "/product_image/{icecream_img}".format(icecream_img=icecream_img[self.r])
 

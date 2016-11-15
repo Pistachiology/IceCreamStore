@@ -4,4 +4,37 @@
 {{email}} <br>
 {{tel}} <br>
 {{address}} <br>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+var map, marker;
+function initialize() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 17,
+        center: new google.maps.LatLng(13.839269,100.573667),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var waypoint = {
+    	name: "Chapter One",
+    	lat: 13.839269,
+    	lng: 100.573667
+    };
+    var center = new google.maps.LatLng(waypoint.lat, waypoint.lng);
+    marker = new google.maps.Marker({map: map, position: center});
+    map.panTo(center);
+}
+</script>
+<style>
+    body {font-family: sans-serif}
+    #map {width: 500px; height: 300px}
+</style>
+</head>
+<body onload='initialize()'>
+    <div id=map></div>
+</body>
 {% endblock %}
+
+
+
+

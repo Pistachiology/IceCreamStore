@@ -77,6 +77,7 @@ class OrderList(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     qty = models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
 
 class Tracking(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)
@@ -100,3 +101,7 @@ class Cart(models.Model):
     def add_or_update(self):
         obj, created = Cart.objects.update_or_create(user=self.user, product=self.product, defaults={'qty':self.qty})
         return created
+
+class Credit(models.Model):
+    cash = models.FloatField()
+    code = models.CharField(max_length=16)

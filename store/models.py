@@ -71,13 +71,13 @@ class Order(models.Model):
     sum_price = models.FloatField()
     list_product = models.ManyToManyField(Product, through='OrderList')
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now=True)
 
 
 class OrderList(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     qty = models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
 
 class Tracking(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)

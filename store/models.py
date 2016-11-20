@@ -14,7 +14,6 @@ class Product(models.Model):
     score = models.FloatField(default=0)
     voter = models.IntegerField(default=0)
     
-    
     def add_or_update(self):
         defaults = {
             'name':self.name,
@@ -49,6 +48,7 @@ class CustomUser(AbstractUser):
             OrderList(order=order, product=product, qty=item.qty).save()
         self.user_cart.clear()
         order.save()
+        Tracking(order=order, user=self).add_or_update()
         return True
 
 class VoteProduct(models.Model):
@@ -89,6 +89,7 @@ class Tracking(models.Model):
         (4 , 'Success'),
     )
     current_state = models.IntegerField(choices=STATE_CHOICE, default=1)
+    date = models.DateTimeField(auto_now=True)
 
     def add_or_update(self):
         obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, defaults={'current_state':current_state})

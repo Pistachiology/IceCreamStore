@@ -93,6 +93,7 @@ class Tracking(models.Model):
 
     def add_or_update(self):
         obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, defaults={'current_state':current_state})
+        return created
 
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -106,3 +107,4 @@ class Cart(models.Model):
 class Credit(models.Model):
     cash = models.FloatField()
     code = models.CharField(max_length=16)
+

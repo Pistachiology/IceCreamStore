@@ -55,8 +55,8 @@ class Command(BaseCommand):
             return flavour[self.r]
         def random_price():
             return random.randint(100, 300)
-        def random_score():
-            return random.randint(0, 10)
+        #def random_score():
+        #    return random.randint(0, 10)
         def random_amount():
             return random.randint(0, 100)
         def random_description():
@@ -67,5 +67,5 @@ class Command(BaseCommand):
         for product_count in options['product_count']:
             for i in range(product_count):
                 random_icecream()
-                product = Product(name=random_name(), price=random_price(), amount=random_amount(), score=random_score(), description=random_description(), image=random_image())
+                product = Product(name=random_name(), price=random_price(), amount=random_amount(), description=random_description(), image=random_image())
                 product.save()

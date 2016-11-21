@@ -54,17 +54,21 @@ class CustomUser(AbstractUser):
 class VoteProduct(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    score = models.FloatField()
+    score = models.FloatField(default=0)
 
     def user_vote_or_update_score(self):
-        obj, created = VoteProduct.objects.get_or_create(user=self.user, product=self.product)
-        if created:
+        try:
+            obj = VoteProduct.objects.get(user=self.user, product=self.product)
             self.product.score = ((self.product.score*self.product.voter) - obj.score + self.score)/self.product.voter
-        else :
+            obj.score = self.score
+            obj.save()
+        except VoteProduct.DoesNotExist:
             temp_score = self.product.score*self.product.voter
             self.product.voter += 1
             self.product.score = (temp_score + self.score)/self.product.voter
+            self.save()
         self.product.save()
+        #obj, created = VoteProduct.objects.get_or_create(user=self.user, product=self.product, defaults={'score':0})
 
 class Order(models.Model):
     date = models.DateField(auto_now_add=True)
@@ -92,7 +96,7 @@ class Tracking(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     def add_or_update(self):
-        obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, defaults={'current_state':current_state})
+        obj, created = Tracking.objects.update_or_create(order=self.order, user=self.user, current_state=self.current_state)
         return created
 
 class Cart(models.Model):
@@ -103,8 +107,4 @@ class Cart(models.Model):
     def add_or_update(self):
         obj, created = Cart.objects.update_or_create(user=self.user, product=self.product, defaults={'qty':self.qty})
         return created
-
-class Credit(models.Model):
-    cash = models.FloatField()
-    code = models.CharField(max_length=16)
 

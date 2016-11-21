@@ -148,15 +148,17 @@ class product(View):
 
 class history(View):
     template_name = "store/history.html"
-
+    @method_decorator(login_required)
     def get(self, request):
-        return render(request, self.template_name, {})
+        history = Tracking.objects.filter(user=request.user, current_state=4)
+        return render(request, self.template_name, {"history":history})
 
 class all_track(View):
     template_name = "store/all_track.html"
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        track = Traking.objects.filter(user=request.user)
+        return render(request, self.template_name, {"track":track})
 
 class track(View):
     template_name = "store/track.html"

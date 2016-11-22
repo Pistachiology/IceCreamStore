@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{product.name}}
+<body>
+<form action="{% url 'user_vote' product.id %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="score" value="{{product.score}}">
+    <input type="submit" value="submit">
+</form>
+</body>
+
+{% endblock %}
+
+
+
+

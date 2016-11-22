@@ -8,6 +8,7 @@ urlpatterns = [
         url(r'^product/?$', views.all_product.as_view(), name='all_product'),
         url(r'^popular_product/?$', views.popular_product.as_view(), name='popular_product'),
         url(r'^product/(?P<product_id>[0-9]+)/?$', views.product.as_view(), name='product'),
+        url(r'^product/vote/(?P<product_id>[0-9]+)/?$', views.user_vote.as_view(), name='user_vote'),
         url(r'^history/?$', views.history.as_view(), name='history'),
         url(r'^track/?$', views.all_track.as_view(), name='all_track'),
         url(r'^track/(?P<track_id>[0-9]+)/?$', views.track.as_view(), name='track'),

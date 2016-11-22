@@ -57,6 +57,10 @@ class VoteProduct(models.Model):
     score = models.FloatField(default=0)
 
     def user_vote_or_update_score(self):
+        '''
+            This method basically change user score if exists else create new voteproduct object which mean one user can only vote one time for each product.
+        but user can change their vote score instead of create new one
+        '''
         try:
             obj = VoteProduct.objects.get(user=self.user, product=self.product)
             self.product.score = ((self.product.score*self.product.voter) - obj.score + self.score)/self.product.voter

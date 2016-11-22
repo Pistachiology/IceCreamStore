@@ -255,6 +255,6 @@ class user_vote(View):
 
     def post(self, request, product_id):
         vote = VoteProduct(user=request.user,product=Product.objects.get(id=product_id),score=float(request.POST.get('score',0)))
-        print "tsljflsjdfl"
         vote.user_vote_or_update_score()
+        messages.success(request, "Vote successfully")
         return HttpResponseRedirect("/store/")

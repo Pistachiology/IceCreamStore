@@ -157,8 +157,8 @@ class all_track(View):
     template_name = "store/all_track.html"
     @method_decorator(login_required)
     def get(self, request):
-        track = Tracking.objects.filter(user=request.user)
-        return render(request, self.template_name, {"track":track})
+        tracks = Tracking.objects.filter(user=request.user)
+        return render(request, self.template_name, {"tracks": tracks})
 
 class track(View):
     template_name = "store/track.html"

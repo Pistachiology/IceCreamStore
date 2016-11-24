@@ -158,7 +158,8 @@ class all_track(View):
     template_name = "store/all_track.html"
     @method_decorator(login_required)
     def get(self, request):
-        tracks = Tracking.objects.filter(user=request.user)
+        tracks = Tracking.objects.exclude(current_state=4).filter(user=request.user)
+        print((tracks[0].order.list_product.values()))
         return render(request, self.template_name, {"tracks": tracks})
 
 class track(View):

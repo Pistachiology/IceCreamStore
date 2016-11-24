@@ -10,7 +10,7 @@ class Command(BaseCommand):
         parse.add_argument('height', nargs="+", type=int)
 
     def handle(self, *args, **options):
-        my_path = self.ROOT_DIR + "../../../static/product_image/"
+        my_path = self.ROOT_DIR + "../../../media/product_image/"
         onlyfiles = [f for f in os.listdir(my_path) if any(word in f for word in ["png", "jpg"])]
         newsize = options['width'][0], options['height'][0]
         for filename in onlyfiles:

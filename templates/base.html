@@ -93,6 +93,7 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        {% if user.is_authenticated %}
                         <!-- Order -->
                         <li>
                             <a href="{% url 'history' %}"> <p class="fa fa-history"> </p> History</a>
@@ -105,6 +106,7 @@
                         <li>
                             <a href="{% url 'cart' %}"> <p class="fa fa-shopping-cart"> </p> Cart </a>
                         </li>
+                        {% endif %}
                         <!-- Contact us -->
                         <li>
                             <a href="{% url 'contact_us' %}"> <p class="fa fa-comment"> </p> Contact us  </a>
@@ -169,6 +171,7 @@
 
     <script src="{% static 'js/custom.js' %}"></script>
     <script>
+        var is_authenticated = {{ user.is_authenticated|yesno:"true,false" }};
         $("#notification_bar").hide();
         $("button#btn_notification").click(function(){ $("#notification_bar").fadeOut();});
     </script>

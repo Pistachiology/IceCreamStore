@@ -16,10 +16,10 @@
             </div>
 
             <div class="card-content">
-                <h4> {{ product.name }} </h4>
-                <p> {{ product.description }} </p>
+                <h4> <a href="{% url 'user_vote' product.id %}?back_url={% url 'all_product' %}"> {{ product.name }} </a> </h4>
+                <!--<p> {{ product.description }} </p>-->
                 <br />
-                <p> <div style="text-align:left;float:left" ><b>{{ product.price }} B</b></div>  <div style="text-align: right;float:right;">&nbsp; <b>{{ product.score }}/10</b> </div> </p>
+                <p> <div style="text-align:left;float:left" ><b>{{ product.price }} B</b></div>  <div style="text-align: right;float:right;">&nbsp; <b>{{ product.score }}/10.0 </b> </div> </p>
                 <br />
             </div>
             <div class="card-action">
@@ -76,15 +76,19 @@
 <script>
 $( document ).ready(function() {
     $("a.purchase_modal").click(function (){
-        var product_id = $(this).attr('id').replace("product_", "");
-        $("#myModalLabel").html("Confirmation - " + $(this).attr('name'));
-	$.getJSON("{% url 'all_product' %}/" + product_id, function(product_raw) {
-            product = product_raw.fields;
-            product.id = product_raw.pk;
-            $("input[name=max_amount]").val(product.amount);
-            $("button[name=purchase_button]").val(product.id);
-	    $("#myModal").modal('hide').modal('show');
-	});
+        if(is_authenticated){
+            var product_id = $(this).attr('id').replace("product_", "");
+            $("#myModalLabel").html("Confirmation - " + $(this).attr('name'));
+            $.getJSON("{% url 'all_product' %}/" + product_id, function(product_raw) {
+                product = product_raw.fields;
+                product.id = product_raw.pk;
+                $("input[name=max_amount]").val(product.amount);
+                $("button[name=purchase_button]").val(product.id);
+                $("#myModal").modal('hide').modal('show');
+            });
+        }else{
+            window.location.assign("{% url 'login_view' %}");
+        }
     });
     $("button[name=purchase_button]").click(function() {
         $("#myModal").modal('hide');

@@ -9,6 +9,9 @@ $(document).ready(function(){
 function setAndShowNotificationBar(message){
     $("div#notification-text").html(message);
     $("#notification_bar").fadeOut().fadeIn();
+    setTimeout(function(){
+        $("#notification_bar").slideUp(1000, function (){});
+    });
 } 
 function getCookie(name) {
     var cookieValue = null;

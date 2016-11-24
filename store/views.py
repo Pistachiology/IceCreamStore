@@ -251,10 +251,12 @@ class user_vote(View):
     
     def get(self, request, product_id):
         prod = Product.objects.get(id=product_id)
-        return render(request, self.template_name, {"product":prod})
+        back_url = request.GET.get("back_url", "/store/")
+        return render(request, self.template_name, {"product": prod, "back_url": back_url})
 
     def post(self, request, product_id):
         vote = VoteProduct(user=request.user,product=Product.objects.get(id=product_id),score=float(request.POST.get('score',0)))
         vote.user_vote_or_update_score()
         messages.success(request, "Vote successfully")
-        return HttpResponseRedirect("/store/")
+        back_url = request.GET.get("back_url", "/store/")
+        return HttpResponseRedirect(back_url)

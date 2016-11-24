@@ -1,17 +1,149 @@
 {% extends 'base.html' %}
 
+{% block page_header %}
+    Product
+{% endblock %}
+
 {% block content %}
-{{product.name}}
-<body>
-<form action="{% url 'user_vote' product.id %}" method="post">
-    {% csrf_token %}
-    <input type="text" name="score" value="{{product.score}}">
-    <input type="submit" value="submit">
-</form>
-</body>
+
+<div class="row">
+    <div class="col-lg-3">
+        <img class="img-responsive img-thumbnail" src="{{ product.image.url }}">
+    </div>
+    <div class="col-lg-5">
+        <h4> {{ product.name }} </h3>
+        <p style="word-wrap: break-word"> Description: {{ product.description }}</p>
+        <p> Price: {{ product.price }} B </p>
+        <p> Score: {{ product.score }}/10.0 </p>
+        <div style="text-align: right" class="vcenter">
+            <button type="button" class="btn btn-info" id="vote_btn"> Vote </button>
+            <button type="button" class="btn btn-info purchase_modal" id="product_{{product.id}}" name="{{ product.name }}" > Add To Cart</button>
+            <a href="{{ back_url }}" class="btn btn-info"> Back </a>
+        </div>
+    </div>
+
+    <!-- Modal ADD TO CART -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+		<div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+		</div>
+		<div class="modal-body">
+                    <form class="form-inline">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Amount"> Amount : </label>
+                                <input class="form-control" placeholder="amount" name="amount" type="number">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group" style="float:right;">
+                                <label for="Max"> Max : </label>
+                                <input class="form-control" placeholder="amount" name="max_amount" type="number" value="10" disabled>
+                            </div>
+                        </div>
+                    </form>
+                    <br />
+                    <br />
+		</div>
+		<div class="modal-footer">
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		    <button type="button" name="purchase_button" class="btn btn-primary" value='1234'>Add to cart</button>
+		</div>
+	    </div>
+	    <!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- Vote modal -->
+    <div class="modal fade" id="voteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+		<div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Vote</h4>
+		</div>
+		<div class="modal-body">
+                    <form class="form-inline" method="post" id="vote_form">
+                        {% csrf_token %}
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Amount"> Score: </label>
+                                <input class="form-control" placeholder="10.0" name="score" type="number">
+                            </div>
+                        </div>
+                    </form>
+                    <br />
+                    <br />
+		</div>
+		<div class="modal-footer">
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="vote_btn" class="btn btn-primary" form="vote_form">Vote</button>
+		</div>
+	    </div>
+	    <!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- /.modal -->
+</div>
+
 
 {% endblock %}
 
+{% block js %}
+<script>
+$( document ).ready(function() {
+    $("button.purchase_modal").click(function (){
+        if(is_authenticated){
+            var product_id = $(this).attr('id').replace("product_", "");
+            $("#myModalLabel").html("Confirmation - " + $(this).attr('name'));
+            $.getJSON("{% url 'all_product' %}/" + product_id, function(product_raw) {
+                product = product_raw.fields;
+                product.id = product_raw.pk;
+                $("input[name=max_amount]").val(product.amount);
+                $("button[name=purchase_button]").val(product.id);
+                $("#myModal").modal('hide').modal('show');
+            });
+        }else{
+            window.location.assign("{% url 'login_view' %}");
+        }
+    });
+    $("button[name=purchase_button]").click(function() {
+        $("#myModal").modal('hide');
+        $.ajax({
+                url: "{% url 'all_product' %}",
+                method: "POST",
+                data: { product_id: this.value, amount: $("input[name=amount]").val() },
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == "success"){
+                        setAndShowNotificationBar("Successfully add to cart !");
+                    }else{
+                        setAndShowNotificationBar("Hmm ?");
+                    }
+                },
+                error: function (ajaxContext) {
+                        setAndShowNotificationBar("Product not found !");
+                }
+        });
+    });
+    $("button#btn_notification").click(function(){ $("#notification_bar").fadeOut();});
+    $("button#vote_btn").click(function(){
+        if(is_authenticated){
+            $("#voteModal").modal('hide').modal('show');
+        }else{
+            window.location.assign("{% url 'login_view' %}");
+        }
+    });
+
+});
+</script>
+{% endblock %}
 
 
 

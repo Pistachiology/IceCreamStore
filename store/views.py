@@ -151,6 +151,7 @@ class history(View):
     @method_decorator(login_required)
     def get(self, request):
         history = Tracking.objects.filter(user=request.user, current_state=4)
+        print (history.values())
         return render(request, self.template_name, {"history":history})
 
 class all_track(View):
@@ -184,9 +185,9 @@ class profile(View):
         authen = authenticate(username=user.username, password=request.POST.get('password', ''))
         if authen is not None:
             user.save()
-            messages.success(request, "Successfully edited profile.")
+            messages.success(request, "Successfully edited profile.", extra_tags="alert-info")
             return render(request, self.template_name)
-        messages.error(request, "Invalid password")
+        messages.error(request, "Invalid password", extra_tags="alert-danger")
         return render(request, self.template_name, {'user': user})
 
 
@@ -215,7 +216,7 @@ class delete_cart(View):
             x = Cart.objects.get(id=cart_id)
             x.delete()
         except Cart.DoesNotExist:
-            messages.error(request, "Cart does not exist.")
+            messages.error(request, "Cart does not exist.", extra_tags="alert-danger")
         return HttpResponseRedirect("/store/cart/")
 
 class logout_view(View):
@@ -234,9 +235,9 @@ class purchase(View):
     @method_decorator(login_required)
     def post(self, request):
         if request.user.purchase() :
-            messages.success(request, "Purchase success.")
+            messages.success(request, "Purchase success.", extra_tags="alert-info")
         else:
-            messages.error(request, "Purchase failed.")
+            messages.error(request, "Purchase failed.", extra_tags="alert-danger")
         return HttpResponseRedirect("/store/cart/")  
         
 class clear_cart(View):
@@ -257,6 +258,6 @@ class user_vote(View):
     def post(self, request, product_id):
         vote = VoteProduct(user=request.user,product=Product.objects.get(id=product_id),score=float(request.POST.get('score',0)))
         vote.user_vote_or_update_score()
-        messages.success(request, "Vote successfully")
+        messages.success(request, "Vote successfully", extra_tags="alert-info")
         back_url = request.GET.get("back_url", "/store/")
         return HttpResponseRedirect(back_url)

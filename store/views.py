@@ -151,7 +151,6 @@ class history(View):
     @method_decorator(login_required)
     def get(self, request):
         history = Tracking.objects.filter(user=request.user, current_state=4)
-        print (history.values())
         return render(request, self.template_name, {"history":history})
 
 class all_track(View):
@@ -159,7 +158,6 @@ class all_track(View):
     @method_decorator(login_required)
     def get(self, request):
         tracks = Tracking.objects.exclude(current_state=4).filter(user=request.user)
-        print((tracks[0].order.list_product.values()))
         return render(request, self.template_name, {"tracks": tracks})
 
 class track(View):

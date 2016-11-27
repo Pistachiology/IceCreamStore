@@ -100,6 +100,8 @@ $( document ).ready(function() {
                 success: function (data) {
                     if(data.status == "success"){
                         setAndShowNotificationBar("Successfully add to cart !");
+                    }else if(data.status == "invalid amount"){
+                        setAndShowNotificationBar("Invalid amount !");
                     }else{
                         setAndShowNotificationBar("Hmm ?");
                     }

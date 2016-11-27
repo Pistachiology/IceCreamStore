@@ -22,7 +22,16 @@ class index(View):
     def get(self, request):
         #obj, created = User.objects.get_or_create(username="admin", password="1234", isAdmin=True)
         #print created
-        return render(request, self.template_name, {})
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect("/store/product")  
+
+        history = Tracking.objects.filter(user=request.user, current_state=4).count()
+        track = Tracking.objects.filter(user=request.user).exclude(current_state=4).count()
+        product = Product.objects.all().count()
+        cart = Cart.objects.filter(user=request.user).count()
+
+        return render(request, self.template_name, {'history': history, 'track': track, 'cart': cart, 'product': product})
+
 
 class login_view(View):
     template_name = "store/login.html"
@@ -51,7 +60,7 @@ class register(View):
         #if not 'is_logged_in' in request.session or not request.session['is_logged_in']:
         #    return redirect("/store/login")
         return render(request, self.template_name, {})
-
+      
     def post(self, request):
         response = {}
         for key in request.POST.keys():

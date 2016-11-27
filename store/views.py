@@ -112,7 +112,11 @@ class all_product(View):
     	try:
             product_id = int(request.POST['product_id'])
             amount = int(request.POST['amount'])
-            Cart(user=CustomUser.objects.get(id=request.user.id), product=Product.objects.get(id=product_id),qty=amount).add_or_update()
+            product = Product.objects.get(id=product_id)
+            current_amount = product.amount
+            if amount < 0 or amount > current_amount:
+                return JsonResponse({"status": "invalid amount"})
+            Cart(user=CustomUser.objects.get(id=request.user.id), product=product, qty=amount).add_or_update()
         except ValueError, MultiValueDictKeyError:
             raise Http404("product doesn't exists")
         return JsonResponse({"status": "success"})
@@ -130,7 +134,11 @@ class popular_product(View):
     	try:
             product_id = int(request.POST['product_id'])
             amount = int(request.POST['amount'])
-            Cart(user=CustomUser.objects.get(id=request.user.id), product=Product.objects.get(id=product_id),qty=amount).add_or_update()
+            product = Product.objects.get(id=product_id)
+            current_amount = product.amount
+            if amount < 0 or amount > current_amount:
+                return JsonResponse({"status": "invalid amount"})
+            Cart(user=CustomUser.objects.get(id=request.user.id), product=product, qty=amount).add_or_update()
         except ValueError, MultiValueDictKeyError:
             raise Http404("product doesn't exists")
         return JsonResponse({"status": "success"})
